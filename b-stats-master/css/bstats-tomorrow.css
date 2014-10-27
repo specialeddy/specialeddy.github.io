@@ -1,0 +1,41 @@
+.navbar {
+	background-color:#282a2e;
+	box-shadow: 0 0 4px 4px #111;
+}
+.navelement {
+    background-color:#282a2e;
+}
+.navelement:hover{
+	background-color:#222;
+	color:#c00;
+}
+.threadbox a{
+	box-shadow: 0 0 2px 2px #1a1a1a;
+}
+.threadbox a:hover{
+	box-shadow: 0 0 3px 3px #111;
+}
+table {
+    border-collapse: collapse;
+}
+td, tr {
+    border: 1px solid black;
+    
+}
+.newsBox{
+    border-radius: 8px 8px 0px 0px;
+    box-shadow: 0px 0px 6px rgba(0,0,0,0.75);
+}
+.newsArticleHead{
+    background-color: #111;
+}
+.newsArticleBody {
+    background-color: #282a2e;
+}
+table.flashListing {
+    border-collapse: separate;
+    border-spacing:1px;
+}
+table.flashListing * {
+    border-color: rgba(0,0,0,0);
+}
