@@ -185,6 +185,57 @@ footer {
   bottom:50px;
 }
 
+.icongroup {
+  list-style: none;
+  padding: 0px 0px 0px 18px;
+}
+
+.generic {
+  background: url(../img/generic.png) no-repeat left center;
+  padding: 10px 0 10px 38px;
+}
+
+.fourchanx {
+  background: url(../img/4chanx.png) no-repeat left center;
+  padding: 10px 0 10px 38px;
+}
+
+.eightchan {
+  background: url(../img/8chan.png) no-repeat left center;
+  padding: 10px 0 10px 38px;
+}
+
+.appchanx {
+  background: url(../img/appchanx.png) no-repeat left center;
+  padding: 10px 0 10px 38px;
+}
+
+.cookie {
+  background: url(../img/cookie.png) no-repeat left center;
+  padding: 10px 0 10px 38px;
+}
+
+.crosslink {
+  background: url(../img/crosslink.png) no-repeat left center;
+  padding: 10px 0 10px 38px;
+}
+
+.namesync {
+  background: url(../img/namesync.png) no-repeat left center;
+  padding: 10px 0 10px 38px;
+}
+
+.tripfagfinder {
+  background: url(../img/tripfagfinder.png) no-repeat left center;
+  padding: 10px 0 10px 38px;
+}
+
+.quickblocker {
+  background: url(../img/quickblocker.png) no-repeat left center;
+  padding: 10px 0 10px 38px;
+}
+
+
 @media print, screen and (max-width: 960px) {
   
   div.wrapper {
