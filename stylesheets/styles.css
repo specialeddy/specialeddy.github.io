@@ -14,7 +14,7 @@ h1, h2, h3, h4, h5, h6 {
   margin:0 0 20px;
 }
 
-p, ul, ol, table, pre, dl {
+p, table, pre, dl {
   margin:0 0 20px;
 }
 
@@ -185,54 +185,68 @@ footer {
   bottom:50px;
 }
 
-.icongroup {
+.h1pad {
+  padding: 0px 0px 16px 0px;
+}
+
+.group ul {
   list-style: none;
   padding: 0px 0px 0px 18px;
+  margin: -16px 0px 0px 0px;
+}
+
+.icon {
+  padding: 20px 0px 0px 38px;
+}
+
+.iconcentered {
+  padding: 10px 0px 10px 38px;
 }
 
 .generic {
   background: url(../img/generic.png) no-repeat left center;
-  padding: 10px 0 10px 38px;
 }
 
 .fourchanx {
   background: url(../img/4chanx.png) no-repeat left center;
-  padding: 10px 0 10px 38px;
 }
 
 .eightchan {
   background: url(../img/8chan.png) no-repeat left center;
-  padding: 10px 0 10px 38px;
 }
 
 .appchanx {
   background: url(../img/appchanx.png) no-repeat left center;
-  padding: 10px 0 10px 38px;
 }
 
 .cookie {
   background: url(../img/cookie.png) no-repeat left center;
-  padding: 10px 0 10px 38px;
 }
 
 .crosslink {
   background: url(../img/crosslink.png) no-repeat left center;
-  padding: 10px 0 10px 38px;
 }
 
 .namesync {
   background: url(../img/namesync.png) no-repeat left center;
-  padding: 10px 0 10px 38px;
 }
 
 .tripfagfinder {
   background: url(../img/tripfagfinder.png) no-repeat left center;
-  padding: 10px 0 10px 38px;
 }
 
 .quickblocker {
   background: url(../img/quickblocker.png) no-repeat left center;
-  padding: 10px 0 10px 38px;
+}
+
+.about {
+  font-style: italic;
+  display: inline-block;
+}
+
+.buttoncontainer {
+  vertical-align: middle;
+  float: right;
 }
 
 
