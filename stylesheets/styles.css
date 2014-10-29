@@ -249,6 +249,11 @@ footer {
   float: right;
 }
 
+a img {
+  display: inline-block;
+  border: 0;
+}
+
 
 @media print, screen and (max-width: 960px) {
   
