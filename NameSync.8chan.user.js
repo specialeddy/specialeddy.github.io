@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         8chan Name Sync
-// @version      0.2.2
+// @version      0.2.3
 // @namespace    nokosage
 // @description  Enables names on 8chan. Does not require 8chan X.
 // @author       nokosage
@@ -13,7 +13,7 @@
 // ==/UserScript==
 
 /*
-  8chan Sync v0.2.2
+  8chan Sync v0.2.3
   https://www.namesync.org/8chan/
 
   Developers:
@@ -344,7 +344,7 @@
   
   g = {
     NAMESPACE: 'NameSync.8chan.',
-    VERSION: '0.2.2',
+    VERSION: '0.2.3',
     checked: false,
     posts: {}
   };
@@ -508,14 +508,14 @@
         NameSync.init();
         Settings.init();
         if ($.getVal('main.namesync_finder') === 'true') Tripfag_Finder.init();
-        console.log("NameSync Initialized");
+        console.log(g.NAMESPACE + g.VERSION + ': Initialized');
         return ;
       }
       g.thread = path[3].split('+')[0].split('.')[0];
       NameSync.init();
       Settings.init();
       if ($.getVal('main.namesync_finder') === 'true') Tripfag_Finder.init();
-      console.log("NameSync Initialized");
+      console.log(g.NAMESPACE + g.VERSION + ': Initialized');
     },
     init: function () {
       if (g.view === 'catalog') {
@@ -536,7 +536,7 @@
       }
       /* /jQuery */
 
-      $.on(d, '8chanXThreadNewPosts', function() {
+      $.on(d, '8chan-Z.NewPosts', function() {
         $.time(500, NameSync.run());
       });
       NameSync.run();
