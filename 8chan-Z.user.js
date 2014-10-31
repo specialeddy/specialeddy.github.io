@@ -6,14 +6,14 @@
 // @license     MIT; https://github.com/nokosage/8chan-Z/blob/master/LICENSE
 // @include     *://*8chan.co/*
 // @run-at      document-start
-// @version     0.2.2
+// @version     0.3.0
 // @grant       none
 // @updateURL   https://raw.githubusercontent.com/nokosage/8chan-Z/master/8chan-Z.meta.js
 // @downloadURL https://raw.githubusercontent.com/nokosage/8chan-Z/master/8chan-Z.user.js
 // ==/UserScript==
 
 /*
-  8chan Z v0.2.2
+  8chan Z v0.3.0
   https://github.com/nokosage/8chan-Z/
 
   Developers:
@@ -439,21 +439,12 @@
 
   var Info = {
     NAMESPACE: '8chan-Z.',
-    VERSION: '0.2.2',
+    VERSION: '0.3.0',
     PROTOCOL: location.protocol,
     HOST: '8chan.co',
     view: 'none',
     board: false,
     threads: []
-  };
-
-  var API = {
-    init: function() {
-      window.Z = {
-        Settings: Settings,
-        Threads: Threads.threads
-      };
-    }
   };
 
   var CSS = {
@@ -531,11 +522,11 @@ div.post div.file .fileThumb {\
 
   var Settings = {
     styles: {
-      Yotsuba: '/stylesheets/yotsuba.css',
+      'Yotsuba': '/stylesheets/yotsuba.css',
       'Yotsuba-B': '/stylesheets/yotsuba_b.css',
-      Tomorrow: '/stylesheets/tomorrow.css',
-      Photon: '/stylesheets/photon.css',
-      Dark: '/stylesheets/dark.css'
+      'Tomorrow': '/stylesheets/tomorrow.css',
+      'Photon': '/stylesheets/photon.css',
+      'Dark': '/stylesheets/dark.css'
     },
     title: false,
     style: false,
@@ -652,22 +643,24 @@ div.post div.file .fileThumb {\
   };
 
   var Threads = {
-    threads: {},
+    sync: {},
     init: function() {
       Threads.run();
     },
     run: function() {
       var _i;
       for (_i = 0; _i < Info.threads.length; _i++)
-        Sync.xhrThread(Info.threads[_i]);
+        Threads.xhrThread(Info.threads[_i]);
     },
     updateThread: function(thread) {
-      var _i, _thd, _ref, _new = false, _new_posts = [];
-      if (!Threads.threads[thread])
-        Threads.threads[thread] = new Thread(thread);
-      _thd = Threads.threads[thread];
-      for (_i = 0; _i < Object.keys(Sync.sync).length; _i++) {
-        _ref = Sync.sync[_i];
+      var _i, _thd, _ref,
+          _new = false,
+          _new_posts = [];
+      if (!Z.Threads[thread])
+        Z.Threads[thread] = new Thread(thread);
+      _thd = Z.Threads[thread];
+      for (_i = 0; _i < Object.keys(Threads.sync).length; _i++) {
+        _ref = Threads.sync[_i];
         if (!_thd.posts[_ref.no]) {
           _new = true;
           _thd.posts[_ref.no] = new Post(_ref);
@@ -679,15 +672,8 @@ div.post div.file .fileThumb {\
           posts: _new_posts
         });
       }
-      Threads.threads[thread].last_modified = Sync.sync[0].last_modified;
+      Z.Threads[thread].last_modified = Threads.sync[0].last_modified;
       $.event(Info.NAMESPACE + 'ThreadUpdated');
-    }
-  };
-
-  var Sync = {
-    sync: {},
-    init: function() {
-
     },
     xhrThread: function(thread) {
       $.xhr({
@@ -700,10 +686,14 @@ div.post div.file .fileThumb {\
       }, {
         onload: function(c) {
           var _i, r;
-          c = (c) ? c.target : { responseText: "{'posts':{}}"};
+          c = (c) ? c.target : {
+            responseText: "{'posts':{}}"
+          };
           r = $.JSON(c.responseText)['posts'];
-          for (_i = 0; _i < r.length; _i++)
-            Sync.sync[_i] = r[_i];
+          //console.log(r);
+          for (_i = 0; _i < r.length; _i++) {
+            Threads.sync[_i] = r[_i];
+          }
           Threads.updateThread(thread);
         }
       });
@@ -762,7 +752,6 @@ div.post div.file .fileThumb {\
       Threads.init();
       CSS.Main();
       Timer.init();
-      API.init();
       $.event(g.NAMESPACE + 'Ready');
     },
     frontpage: function() {
@@ -773,8 +762,8 @@ div.post div.file .fileThumb {\
     },
     board: function() {
       console.log(Info.NAMESPACE + Info.VERSION + ": Initializing View: Board");
-      Cleaner.init();
-      $.ready(Main.ready);
+      //Cleaner.init();
+      //$.ready(Main.ready);
     },
     thread: function() {
       console.log(Info.NAMESPACE + Info.VERSION + ": Initializing View: Thread");
@@ -786,7 +775,7 @@ div.post div.file .fileThumb {\
       path = $.split(location.pathname, '/'); 
       Info.board = (_ref = path[1]) ? _ref : false;
       Info.view = (_ref = $.split(path[2], '.', 0)) === 'thread' || _ref === 'catalog' || _ref === 'res' ? _ref : (Info.board) ? 'index' : 'frontpage';
-      Info.view = (_ref = $.split(location.pathname, '.', 1)) !== 'html' ? 'none' : Info.view; 
+      Info.view = (_ref = $.split(location.pathname, '.', 1)) !== 'html' ? 'none' : Info.view;
     },
     setThreads: function() {
       if ($('[data-board="'+Info.board+'"]')) {
@@ -1131,6 +1120,28 @@ div.post div.file .fileThumb {\
     return Post;
 
   })();
+
+  var _8chanZ = (function() {
+    _8chanZ.prototype.toString = function() {
+      return this.Info.NAME + this.Info.VERSION;
+    };
+    _8chanZ.prototype.makeGlobal = function() {
+      window.Z = this;
+    }
+
+    function _8chanZ() {
+      this.Info = Info;
+      this.Settings = Settings;
+      this.Threads = {};
+
+      this.makeGlobal();
+    }
+
+    return _8chanZ;
+
+  })();
+
+  var Z = new _8chanZ();
 
   Main.init();
 
