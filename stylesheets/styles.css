@@ -141,7 +141,6 @@ header ul a {
 }
 
 strong {
-  color:#222;
   font-weight:700;
 }
 
@@ -186,7 +185,7 @@ footer {
 }
 
 .h1pad {
-  padding: 0px 0px 16px 0px;
+  padding: 0px 0px 5px 0px;
 }
 
 .group ul {
@@ -214,7 +213,8 @@ footer {
 }
 
 .iconcentered {
-  padding: 10px 0px 10px 38px;
+  padding: 0px 2px 0px 0px;
+  vertical-align: middle;
 }
 
 .about {
@@ -229,11 +229,14 @@ footer {
   right: 8px;
 }
 
+.list {
+  padding: 0px 0px 10px 0px;
+}
+
 a img {
   display: inline-block;
   border: 0;
 }
-
 
 @media print, screen and (max-width: 960px) {
   
