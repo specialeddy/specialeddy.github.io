@@ -192,51 +192,29 @@ footer {
 .group ul {
   list-style: none;
   padding: 0px 0px 0px 18px;
-  margin: -16px 0px 0px 0px;
+}
+
+.container {
+  position: relative;
+  top: -2px;
+}
+
+.userscript {
+  position: relative;
+  right: -6px;
+  top: -4px;
+  padding: 10px 0px 10px 0px;
 }
 
 .icon {
-  padding: 20px 0px 0px 38px;
+  float: left;
+  position: relative;
+  right: 6px;
+  top: -5px;
 }
 
 .iconcentered {
   padding: 10px 0px 10px 38px;
-}
-
-.generic {
-  background: url(../img/generic.png) no-repeat left center;
-}
-
-.fourchanx {
-  background: url(../img/4chanx.png) no-repeat left center;
-}
-
-.eightchan {
-  background: url(../img/8chan.png) no-repeat left center;
-}
-
-.appchanx {
-  background: url(../img/appchanx.png) no-repeat left center;
-}
-
-.cookie {
-  background: url(../img/cookie.png) no-repeat left center;
-}
-
-.crosslink {
-  background: url(../img/crosslink.png) no-repeat left center;
-}
-
-.namesync {
-  background: url(../img/namesync.png) no-repeat left center;
-}
-
-.tripfagfinder {
-  background: url(../img/tripfagfinder.png) no-repeat left center;
-}
-
-.quickblocker {
-  background: url(../img/quickblocker.png) no-repeat left center;
 }
 
 .about {
@@ -245,8 +223,10 @@ footer {
 }
 
 .buttoncontainer {
-  vertical-align: middle;
+  position: relative;
+  top: -15px;
   float: right;
+  right: 8px;
 }
 
 a img {
