@@ -14,7 +14,7 @@ h1, h2, h3, h4, h5, h6 {
   margin:0 0 20px;
 }
 
-p, table, pre, dl {
+table, pre, dl {
   margin:0 0 20px;
 }
 
@@ -189,6 +189,15 @@ footer {
   padding: 0px 0px 5px 0px;
 }
 
+.list {
+  padding: 0px 0px 10px 0px;
+}
+
+a img {
+  display: inline-block;
+  border: 0;
+}
+
 .group ul {
   list-style: none;
   padding: 0px 0px 0px 18px;
@@ -201,16 +210,16 @@ footer {
 
 .userscript {
   position: relative;
-  right: -6px;
   top: -4px;
   padding: 10px 0px 10px 0px;
+  overflow: auto;
 }
 
 .icon {
   float: left;
   position: relative;
-  right: 6px;
   top: -5px;
+  padding: 0px 6px 0px 0px;
 }
 
 .iconcentered {
@@ -218,25 +227,24 @@ footer {
   vertical-align: middle;
 }
 
+.info {
+  float: left;
+}
+
+.name {
+  font-weight: bold;
+  margin: 0px;
+}
+
 .about {
+  font-size: smaller;
   font-style: italic;
   display: inline-block;
+  margin: 0px;
 }
 
 .buttoncontainer {
-  position: relative;
-  top: -15px;
   float: right;
-  right: 8px;
-}
-
-.list {
-  padding: 0px 0px 10px 0px;
-}
-
-a img {
-  display: inline-block;
-  border: 0;
 }
 
 @media print, screen and (max-width: 960px) {
