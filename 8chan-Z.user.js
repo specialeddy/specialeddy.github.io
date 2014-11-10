@@ -6,14 +6,14 @@
 // @license     MIT; https://github.com/nokosage/8chan-Z/blob/master/LICENSE
 // @include     *://*8chan.co/*
 // @run-at      document-start
-// @version     0.3.9
+// @version     0.4.2
 // @grant       none
 // @updateURL   https://raw.githubusercontent.com/nokosage/8chan-Z/master/8chan-Z.meta.js
 // @downloadURL https://raw.githubusercontent.com/nokosage/8chan-Z/master/8chan-Z.user.js
 // ==/UserScript==
 
 /**
- * 8chan Z v0.3.9
+ * 8chan Z v0.4.2
  * https://github.com/nokosage/8chan-Z/
  *
  * Developers:
@@ -439,7 +439,7 @@
 
   var Info = {
     NAMESPACE: '8chan-Z.',
-    VERSION: '0.3.9',
+    VERSION: '0.4.2',
     PROTOCOL: location.protocol,
     HOST: '8chan.co',
     view: 'none',
@@ -451,7 +451,7 @@
     Main: function() {
       Main.css = $.css('\
 #top_menu {\
-  box-shadow: 0 -15px 6px 15px rgba(0, 0, 0, 0.5);\
+  box-shadow: 0 7px 4px -4px rgba(0, 0, 0, 0.5);\
   left: 0;\
   line-height: 1.6;\
   margin: -1px 0 0 -5px;\
@@ -462,11 +462,11 @@
   z-index: 100;\
 }\
 .navButtons {\
-  display: inline-block;\
-  left: calc(50% - 30px);\
-  margin: 0 5px;\
-  position: absolute;\
+  display: block;\
+  margin: 0 auto;\
+  position: relative;\
   text-align: center;\
+  width: 75px;\
 }\
 .navButtons > a {\
   margin: 0 2px;\
@@ -509,8 +509,16 @@ div.post.reply {\
   margin: 0 !important;\
   text-decoration: none;\
 }\
+#nativeMenu {\
+  float: left;\
+}\
 .menu-button:before {\
   content: "";\
+}\
+.quote_inline {\
+  background: none repeat scroll 0 0 rgba(255, 255, 255, 0.07);\
+  border: 1px solid;\
+  display: table;\
 }\
 div.post div.file .fileThumb {\
   float: left;\
@@ -552,6 +560,7 @@ div.post div.file .fileThumb {\
   }
 
   var Menu = {
+    initialized: false,
     button: false,
     styleChanger: false,
     top_menu: false,
@@ -560,12 +569,22 @@ div.post div.file .fileThumb {\
     navButtons: false,
     init: function() {
       var _ref;
+      if (Menu.initialized === true) return;
       //Top Menu
       Menu.top_menu = (_ref = $('div.boardlist')) ? _ref : false;
       $.addClass($.att(Menu.top_menu, 'id', 'top_menu'), 'pages');
+      Menu.nativeMenu = $.elm('span', {
+        id: 'nativeMenu'
+      }, Menu.top_menu);
+      for (var c = 0; $('.sub[data-description="'+c+'"]', db); c++){
+        $.add(Menu.nativeMenu, $('.sub[data-description="'+c+'"]', db));
+      }
       Menu.navButtons = $.elm('span', {
         class: 'navButtons'
       }, Menu.top_menu);
+      $.time(3000, function() {
+        if (_ref = $('#mod_options')) $.before(_ref, Menu.navButtons);
+      });
       $.elm('a', {
         href: '#top',
         class: 'fa fa-arrow-up'
@@ -606,9 +625,7 @@ div.post div.file .fileThumb {\
       }, Menu.navButtons), $('[href="#bottom"]', Menu.navButtons));
       $.before($.tn(' / '), Menu.button);
       $.after($.tn(' / '), Menu.button);
-      $.time(3000, function() {
-        Menu.navButtons.style.left = 'calc(50% - ' + ((_ref = window.getComputedStyle(Menu.navButtons)) ? (parseInt(_ref.width) + parseInt(_ref.marginLeft) + parseInt(_ref.marginRight)) / 2 : 0) + 'px)';
-      });
+      Menu.initialized = true;
     }
   };
 
@@ -644,6 +661,7 @@ div.post div.file .fileThumb {\
       window.ready = function(){};
       window.onready = function(){};
       window.init = function(){};
+      window.highlightReply = function(no){};
     }
   };
 
@@ -730,7 +748,7 @@ div.post div.file .fileThumb {\
     thread: function() {
       console.log(Info.NAMESPACE + Info.VERSION + ": Initializing View: Thread");
       Cleaner.init();
-      $.time(100, Main.ready);
+      $.time(1000, Main.ready);
     },
     setBoard: function() {
       var path, _ref;
@@ -806,6 +824,7 @@ div.post div.file .fileThumb {\
             _thd.xhring = true;
           }
           if (_t.readyState == 4) {
+            _thd.xhring = false;
             if (_t.status === 404) {
               if (_thd.xhr_tries > 3) {
                 _thd.active = false;
@@ -1005,12 +1024,43 @@ div.post div.file .fileThumb {\
         return;
       }
       backlink = $.text($.elm('a', {
-        class: 'backlink',
+        class: 'backlink backlink_prepared',
         href: '/' + Info.board + '/res/' + thread + '.html#p' + no
       }, this.nodes.post.info.backlinkContainer), '>>' + no);
       $.before($.tn(' '), backlink);
       this.backlinks[no] = backlink;
+      
+      this.setQuotePreview(backlink, thread, no);
+      this.setQuoteInline(backlink, this.thread, no, backlink.parentNode);
+      
       return backlink;
+    };
+    Post.prototype.prepareQuoteLinks = function() {
+      var links, no, _ref;
+      links = $$('blockquote > a', this.nodes.post);
+      for (var _i = 0; _i < links.length; _i++) {
+        no = (_ref = $.split($.text(links[_i]), '>>')[1]) ? _ref : false;
+        if (no && no != this.ID && !$.hasClass(links[_i], 'link_prepared')) {
+          this.setQuotePreview(links[_i], this.thread, no);
+          this.setQuoteInline(links[_i], this.thread, no, links[_i]);
+          $.addClass(links[_i], 'link_prepared');
+        }
+      }
+    };
+    Post.prototype.prepareQuoteBacklinks = function() {
+      var links, no, _ref, backlinkContainers;
+      backlinkContainers = $$('.backlink-container', this.nodes.post);
+      for (var _j = 0; _j < backlinkContainers.length; _j++) {
+        links = $$('a', backlinkContainers[_j]);
+        for (var _i = 0; _i < links.length; _i++) {
+          no = (_ref = $.split($.text(links[_i]), '>>')[1]) ? _ref : false;
+          if (no && no != this.ID && !$.hasClass(links[_i], 'backlink_prepared')) {
+            this.setQuotePreview(links[_i], this.thread, no);
+            this.setQuoteInline(links[_i], this.thread, no, links[_i].parentNode);
+            $.addClass(links[_i], 'backlink_prepared');
+          }
+        }
+      }
     };
     Post.prototype.destroyBacklinks = function() {
       var links, no, _ref;
@@ -1029,15 +1079,60 @@ div.post div.file .fileThumb {\
         $.destroy(_ref);
       }
     };
-    Post.prototype.setQuotePreviews = function() {
-      var links, no, _ref;
-      links = $$('a', this.user.com);
-      for (var _i = 0; _i < links.length; _i++) {
-        no = (_ref = $.split($.text(links[_i]), '>>')[1]) ? _ref : false;
-        if (no && (_ref = Z.Threads[this.thread].Posts[no])) {
-          _ref.createBacklink(this.thread, this.ID);
+    Post.prototype.setQuotePreview = function(link, thread, no) {
+      $.on(link, 'mouseover', function(e) {
+        var el, _node;
+        if (!$.hasClass(link, 'inlined')) {
+          _node = Z.Threads[thread].Posts[no].nodes.post;
+          el = $.htm($.elm('div', {
+            id: 'quote_preview',
+            style: 'position: fixed; z-index: 200; left: ' + e.clientX + 'px; top: ' + e.clientY + 'px;'
+          }, document.body), _node.outerHTML);
+          $.att($.att(el.childNodes[0], 'style', 'border: 1px solid;'), 'class', 'post reply');
+          $.on(link, 'mousemove', function(e) {
+            var _ref, _ref2;
+            el.style.left = (((_ref = e.clientX) <= window.innerWidth / 2) ? _ref + 25 : _ref - parseInt(window.getComputedStyle(_node).width) - 50) + 'px';
+            el.style.top = (((_ref2 = (((_ref = e.clientY - (parseInt(window.getComputedStyle(_node).height))) >= 0) ? _ref : 0)) + parseInt(window.getComputedStyle(_node).height) + 50 <= window.innerHeight) ? _ref2 : window.innerHeight - parseInt(window.getComputedStyle(_node).height) - 50) + 'px';
+          });
+          $.on(link, 'mouseout', function() {
+            $.destroy(el);
+          });
         }
-      }
+      });
+    };
+    Post.prototype.setQuoteInline = function(link, thread, no, after) {
+      $.on(link, 'click', function(e) {
+        var el, _ref, _node, links, backlinks;
+        e.preventDefault();
+        if ($.hasClass(link, 'inlined')) {
+          $.destroy($('#inlined_' + no, this.nodes.post));
+          $.removeClass(link, 'inlined');
+        } else {
+          el = (_ref = Z.Threads[thread].Posts[no].nodes.post) ? _ref : false;
+          if (el) {
+            _node = $.after($.htm($.elm('div', {
+              id: 'inlined_' + no,
+              class: 'quote_inline'
+            }), el.innerHTML), after);
+            $.addClass(_node.childNodes[0], 'quote_inlined');
+            $.removeClass(_node.childNodes[0], 'reply');
+
+            backlinks = $$('.backlink_prepared', _node);
+            for (var _i = 0; _i < backlinks.length; _i++) {
+              $.removeClass(backlinks[_i], 'backlink_prepared');
+            }
+            var links = $$('.link_prepared', _node);
+            for (var _i = 0; _i < links.length; _i++) {
+              $.removeClass(links[_i], 'link_prepared');
+            }
+            this.prepareQuoteLinks();
+            this.prepareQuoteBacklinks();
+
+            $.addClass(link, 'inlined');
+            if (_ref = $('#quote_preview')) $.destroy(_ref);
+          }
+        }
+      }, this);
     };
     
     Post.prototype.insertPostIntoThread = function() {
@@ -1208,6 +1303,8 @@ div.post div.file .fileThumb {\
       };
 
       this.createBacklinks();
+      this.prepareQuoteLinks();
+      //this.prepareQuoteBacklinks();
     }
 
     return Post;
