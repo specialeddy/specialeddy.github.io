@@ -1,0 +1,3 @@
+LIBRARY AutoIt_Helper
+EXPORTS
+   WinHTTP_Action		@1

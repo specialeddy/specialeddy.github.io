@@ -1,0 +1,172 @@
+{\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset2 Symbol;}}
+{\colortbl ;\red255\green0\blue0;\red0\green255\blue0;\red255\green255\blue0;\red0\green0\blue255;\red128\green0\blue0;\red128\green0\blue128;\red0\green0\blue128;\red0\green128\blue128;\red51\green51\blue51;}
+{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\qc\cf1\lang1033\ul\b\f0\fs24 Note to FireFox & Opera users\ulnone\b0\par
+\i Unlike Chrome, Chromium, Safari and IE, \ul\b FireFox\ulnone\b0  & \ul\b Opera\ulnone\b0  do not follow \ul system \par
+proxy settings\ulnone  changes on the fly, this means that changing your proxy using \par
+/B/anBuster will not work unless you restart FireFox or Opera \ul everytime\ulnone  you're \par
+going to use a proxy!\par
+\par
+\i0\fs22 However, if you use foxyproxy, you can set it to use system proxy settings, google it.\par
+doing this will make firefox + foxyproxy work well with banbuser.\cf2\b\i\fs36\par
+\i0\par
+===========================\par
+==========  \cf3\ul\i F.A.Q\cf2\ulnone\i0   ==========\par
+===========================\par
+\b0\fs20 Hold \b [\cf3 CTRL\cf2 ]\b0  and use the \b mouse wheel \b0 to \b zoom in and out of this text \par
+\b0 in case you're having a hard time reading it.\par
+\pard\par
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-720\li720 Q: Why does it crash when testing proxies? \par
+\pard\tab\tab A: The program is buggy, it may crash randomely but is usable enough to do what \tab\tab\tab      you need. \par
+\par
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-720\li720 Q: How do I delete proxies?\par
+\pard\tab\tab A: To delete proxys, click delete key while one is highlighted or right click and \tab\tab\tab      select delete option. several can be selected at a time. you can even delete p\tab\tab\tab      roxies by country or blacklist the ISP server of a proxy if its background is \tab\tab\tab      highlighted green\par
+.\par
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-720\li720 Q: I get connection errors with proxies.\par
+\pard\tab\tab A: If you get connection errors with proxies, then it probably sucks, use \tab\tab\tab\tab     anotherone.\par
+\par
+\pard{\pntext\f1\'B7\tab}{\*\pn\pnlvlblt\pnf1\pnindent0{\pntxtb\'B7}}\fi-720\li720 Q: How do I get proxies?\par
+\pard\tab\tab A: The search bar above is used to search things on Google, this is used \tab\tab\tab\tab      to quickly gather proxies. Make sure to use an effective search term for \tab\tab\tab      best results, a good example of this is something basic like "Proxy server \tab\tab\tab      list", this is just like searching for proxies on the google search home \tab\tab\tab\tab      page. If you're making a lot of searches, you might notice after a while that the \tab\tab\tab      status bar shows that it's skipping through results at a very fast speed. This is \tab\tab\tab      because some of the links found have already been scanned, the app caches \tab\tab\tab      everything it scans (links only) in the "\b banbuster - history.db\b0 " database to \tab\tab\tab      avoid recrawling things its already scanned in order to save time. In order to \tab\tab\tab      extract proxies from a specific website, enter its address into the searchbar and \tab\tab      make sure it has "\cf0\b{\field{\*\fldinst{HYPERLINK "http://"}}{\fldrslt{\ul\cf4 http://}}}\cf2\b0\f0\fs20 " in the address or it will just be searched on Google.If \tab\tab\tab      you entered a website address and no proxies were recovered, it is most likely \tab\tab\tab      that the website has anti-scrapper safeguards to prevent us from taking their \tab\tab\tab      proxies, read the \cf3 protips section\cf2  for more info. Being familiar with google search\tab\tab\tab      tricks also helps (google search regexp), also try playing with the search time \tab\tab\tab      setting next to the search bar. Selecting "week" will tell google to deliver results \tab\tab      relevant to a week past, selecting hour will return results relevant to sites \tab\tab\tab      google discovered an hour or less ago and so on. Once you have a few proxies, \tab\tab      move over to the next tab (Proxy Tester) and hit the "Test Proxies" button to \tab\tab\tab      begin  testing the proxies banbuster found. The application should start testing \tab\tab\tab      the proxies you harvested and will list the good ones that passed a small set of \tab\tab      tests. Once the testing has stopped, or once you stopped it, you can double \tab\tab\tab      click a proxy and try to post. If it doesnt work, read the red text above.\par
+\pard\par
+\par
+\pard\qc\b\fs36 ===========================\par
+====  \cf3\ul\i ListView Item Colors\cf2\ulnone\i0   ====\par
+===========================\par
+\b0\fs20 There are two two things to note on color codes. \par
+The square icons and the background colors.\par
+\pard\par
+The icons are colored from green to red, green being fastest and red being slowest. \par
+It coresponds with the proxy latency.. \par
+\par
+The background colors mean something totally different but all around hint the same owards usability.\par
+\par
+Red backgrounds indicate that you have blacklisted that proxies ISP, you can disable these from being listed alongseide other proxies\par
+.\par
+Yellow means that banbuster was unable to determin the ISP of the proxy and ISP filtering on that ISP will not work, so it's better to just show it unles you blocked its first octet (the first numbers before the period), it's best to just right click on the proxy and select the option "Delete by Country" or just copy its first octet as explaned above and put it into the filter in the "advanced" settings if you notice it has a high tendancy to be ISP banned or just suck in general. Like chinese, peru and venezuelen proxies.\fs36\par
+\par
+\fs20 Green proxies are proxies that the ISP info was determined for and not blacklisted by you, if you encounter a green proxy with a banned ISP, right click and select the option "Blacklist ISP", the program will take a while depending on how large your list is and make sure no other proxies with that ISP are on the list or will be listed again without a red background.\fs36\par
+\par
+\pard\qc\b ===========================\par
+====  \cf3\ul\i /B/anBuster ProTips\cf2\ulnone\i0   ====\par
+===========================\par
+\pard\li720\fs28 1)\b0\fs20  BanBuster can make your browser use a proxy by just double clicking the proxy in the list. This is tested and confirmed to work for Chrome, Chromium, Safari and Internet Explorer. Sometimes your PC might have some odd software that prevents BB from setting the proxy, if so, then do it manually.\par
+\b\fs28 - \b0\fs20 Side note: This app is designed specifically for /b/, it's configured to work as a supirior replacment to FoxyProxy on /b/ only. It will only tell your browser to use a proxy for posting only. you can probably ckeck the ban page while on one as well.\par
+\pard\par
+\pard\li720\b\fs28 2)\b0\fs20  BanBuster was intended to be run on the Windows operating system, running under Wine does not work. If you're using a supported browser and are unable to get BanBuster to use the selected proxy, try running as administrator if under Windows Vista or above. If that still did not work, then maybe an Anti-Virus application is preventing banbuster from setting the proxy for the system. I have discovered that some application will revert the change to the registry that banbuster does, while this is very rare, it does happen.\par
+\pard\par
+\pard\li720\b\fs28 3)\b0\fs20  If you're not using an extension like foxyproxy to use the successfully tested proxies, in whatever browser you're using, make sure it's using "\i system proxy settings\i0 " by checking the proxy settings or else the proxy will not work with your browser. Most browsers have this set by default unless you changed it. This application will set the proxy to be used by things that connect to the internet, like browsers. Some applications ignore this but it seems all browsers have this option and use it.\par
+\pard\par
+\pard\li720\b\fs28 4)\b0\fs20  To start finding proxies, in the main tab\b  [\cf3 proxy finder\cf2 ]\b0 , enter some keywords like "\i socks list proxies\i0 " or a google RegExp like \b [\cf3 +"80" +"8080"\cf2 ]\b0  (without the brackets) and click search. \b 80\b0  and \b 8080\b0  are common proxy port numbers and this will bring up lots of proxies in a search result.\par
+\b\fs28 -\b0\fs20 To get proxies from a file on your harddrive, drop the file(s) into /B/anBuster. This will trigger the application look for proxies in that file.\par
+\b\fs28 -\b0\fs20 To grab proxies from a webpage like hidemyass, it usually works to\b  [\cf3 CTRL\cf2  + \cf3 A\cf2 ] + [\cf3 CTRL\cf2  + \cf3 C\cf2 ] \b0 everything in a webpage or file. This method usually works for places that have anti-scrapper methods implemented like over at hidemyass. Although, I implemented an autopilot feature that will actually deobfuscate proxies specifically on hidemyass, just leave the searchbar blank and click scan, make sure there are no proxies in your clipboard and banbuster will start crawling a user specified amount of pages and then automatically test the new proxies it found.\par
+\b\fs28 -\b0\fs20 To get proxies from a specific website, enter the website in this format (\cf0\i{\field{\*\fldinst{HYPERLINK "http://somesite.com"}}{\fldrslt{\ul\cf4 http://somesite.com}}}\cf2\i0\f0\fs20 ), this usually works for most sites that have the proxies in them in plain text like \b 255.255.255.255:8080\b0  for example.\par
+\pard\par
+\pard\li720\b\fs28 5)\b0\fs20  To reset the application, delete the "\i banbuster - history.db\i0 " database, some user options are stored in the proxy database so this will not reset "everything" in case you were wondering. It's best to keep your database for as long as possible because banbuster will save all the black listed proxies that are banned in the database to make sure they aren't tested again, this can help you save lots of time by not re-testing things it knows do not work.\par
+\pard\par
+\pard\li720\b\fs28 6)\b0\fs20  In the "Advanced" tab there will be some controls with option to set the performence of BanBuster, such as number of tests per proxy, how long a test can take in seconds, and the amount of tests that happen at the same time (5 is usually best, but if you have nasa grade internet, go up to 25). Make sure you use something that makes sense for better results, and remember that doing more concurrent tests reduces the accuracy of the results!\par
+\pard\par
+\pard\li720\b\fs28 7)\b0\fs20  If you've tested a few proxies and left the "list banned" option on to see ban reasons for proxies, you might have a lot of banned proxies on the list. You can quickly delete things like those by just hitting the \b [\cf3 DELETE\cf2 ]\b0  key when they're selected. Doing this will blacklist the proxy and will not test it again until you delete the database.\par
+\par
+\b\fs28 8)\b0\fs20  Sometimes the application may become unresponsive, this is due to AutoIts nature of being a single threaded application. BanBuster may become unresponsive for 3-15 seconds when doing a google search, this happens because AutoIt's main thread is busy doing background operations and banbuster will become responsive again once that operation has finished. I can fix this by making it use another thread but I've been lazy lately... There is also a bug where the application will randomely crash on a memory access violation. I believe this is my fault because I overlooked something with the data structures that are passed to the threads during testing. This crash only happens when switching between the test phases of the proxies.\par
+\pard\qc\par
+\b\fs36 =========================\fs20\par
+\fs36 ==== \cf3\ul\i The More You Know\cf2\ulnone\i0  ====\par
+=========================\par
+\pard\cf1\ul\fs32 IMPORTANT!!!\cf2\ulnone\b0\fs20\par
+\par
+\pard\li720\cf4\b\i The proxy harvester uses a regular expression to harvest proxies.\par
+A regular expression is some text that tells banbuster to only match certain proxies.\par
+If you're going to mess with it, you need to read the information in the link givien below.\cf2\b0\par
+\pard\i0\par
+\b Example 1:\b0  "\cf1\b (\cf5 (?:\\d\{1,3\}\\.)\{3\}\\d\{1,3\}\cf6 :\cf7\\d\{1,5\}\cf1 )\cf2\b0 "\par
+\par
+\pard\li720 The above \ul RegExp\ulnone  will accept proxies operating on ports \cf7\b 0-99999 \cf2\b0 and octets \cf5\b 0-999\cf2\b0 , meaning that it will accept all proxies without descrimination. The \cf1 Red \cf2 "\cf1 ( )\cf2 " are the captchering group statments, everything that matches the pattern inside them is captchered, make sure not to add more than one "( )", or banbuster will fail.\par
+\par
+This is the RegExp we used to use, but this has been changed due to several legit reasons, which is that it is prefered to reduce the amount of proxies we harvest in favor of harvesting proxies we already know will be more likely to work. This type of regexp will also accept proxies with funny ranges so it's recomended not to use this type of RegExp..\par
+\pard\par
+\b Example 2:\b0  "\cf1\b (\cf5 (?:\\d\{1,3\}\\.)\{3\}\\d\{1,3\}\cf6 :\cf7 (?:8080|8081|3128|80)\cf1 )\cf2\b0 "\par
+\par
+\pard\li720 The above regular expression string aka text (without quotes) will tell banbuster to except only proxies that have the port numbers \cf7\b 8080\cf2\b0 , \cf7\b 3126\cf2\b0  and \cf7\b 80\cf2\b0 .\par
+If you want banbuster to accept proxies with other port numbers than add the port seperated by a | character.\par
+\par
+It's better practice to add smaller port numbers to the end of the string, as you see \cf7\b 80\cf2\b0  is the last, this is done to avoide picking up proxies that have \cf7\b 80\cf1 81\cf2\b0  So we catch proxies with \cf7\b 8081\cf2\b0  first and not just the \cf7\b 80\cf2\b0  bit leaving out the \cf1\b 81\cf2\b0 .\par
+\pard\par
+\b Example 3: \b0 "\cf1\b (\cf5 (?:25[0-5]|2[0-4]\\d|1?[1-9]\\d?|1\\d\\d)\\.(?:(?:25[0-5]|2[0-4]\\d|1?[1-9]\\d?|1\\d\\d|0)\\.)\{2\}(?:25[0-5]|2[0-4]\\d|1?[1-9]\\d?|1\\d\\d|0)\cf6 :\cf7 (?:312[8-9]|28134|54321|45612|443|\cf8 1\\d\{2,3\}|9\\d\{3\}|8\\d\{1,3\}\cf7 )\cf1 )\cf2\b0 "\par
+\par
+\pard\li720 The above RegExp is a little bit more complicated, it will accept proxies with ports \cf8\b 80-89\cf2\b0 ,\b  \cf8 800-899\cf2\b0  and \cf8\b 8000-8999\cf2\b0  \b "\cf8 8\\d\{1,3\}\cf2 "\b0 , \cf8\b 9000-9999 \cf2\b0 "\cf8\b 9\\d\{3\}\cf2\b0 " etc, as well as \cf7\b 443\cf2\b0 ,\cf7  \b 3128\cf2\b0 ,\cf7\b  3129\cf2\b0 , \cf7\b 28134\cf2\b0 ,\b  \cf7 45612\cf2\b0  and \cf7\b 54321\cf2\b0 . This is the current default RegExp used, this is because it has been noted that proxies using these ports seem to work much more often than others. You will also notice that it's conciderably longer than all the other examples, this is because it will attempt to reduce the amount of fake proxies accepted.\par
+\par
+This is because there are a lot of assholes on the inernet who add fake proxy addresses to fuck with us, so we just use this lengthy RegExp to make sure we're not accepting those funny proxies in ranges that don't even work. For example: \cf5\b 190.38.23.120\cf6 :\cf8 8080\cf2  \b0 will be accepted, \cf1\b 4\cf5 21.\cf1 5\cf5 35.123.123\cf6 :\cf8 8080\cf2\b0  and \cf5\b 1.237.43.\cf1 3\cf5 40\cf6 :\cf8 80\cf2\b0  will not.\par
+\par
+Some people even like to throw proxies like \cf5\b 5.\cf1 0\cf5 1.211.55\cf6 :\cf8 80\cf2\b0  and \cf1\b 0\cf5 .5.77.1\cf6 :\cf8 8080\cf2\b0  into the mix, this RegExp filters those away too. Sure, some people say they are legit, but I'd rather not work with those, someone once said that proxies with a leading 0 in address are actually valid, however, I prefer to not harvest these because I've tested hundreds of thousands of proxies and have never once found one which worked.\par
+\pard\par
+If you're a badass and like to read, you can find all the information you need about AutoIt's RegExp at this URL: \cf0{\field{\*\fldinst{HYPERLINK "http://www.autoitscript.com/autoit3/docs/functions/StringRegExp.htm"}}{\fldrslt{\ul\cf4 http://www.autoitscript.com/autoit3/docs/functions/StringRegExp.htm}}}\cf2\f0\fs20\par
+\par
+For any questions concerning my project, contact \i ScriptKitty\i0  at \cf4\i SouthSidePonyClick@Gmail.com\cf2\i0 .\par
+Alternativly, visit \cf0{\field{\*\fldinst{HYPERLINK "http://the.jewpony.com/help"}}{\fldrslt{\ul\cf4 http://the.jewpony.com/help}}}\f0\fs20\par
+\cf2 Assuming many days havent passed and I'm still alive and active on the internet and /b/reads!\par
+\pard\qc\cf0\par
+\cf2\b\fs36 =========================\cf0\b0\fs20\par
+\cf2\b\fs36 ===\cf0  \cf3\ul\i Credits & Information\cf2\ulnone\i0  ===\par
+=========================\par
+\b0\fs20\par
+\b /B/anBuster is a script written in the AutoIt scripting language.\par
+Special thanks to Jon the creator of AutoIt\b0  and\b  the AutoIt Dev-team.\b0\par
+Tancexx \par
+Valik\par
+Jos\par
+jpm\par
+GaryFrost\par
+Nutster\par
+tylo\par
+Holger\par
+DaveF\par
+SvenP\par
+\pard\li360\par
+\pard\qc\b Special Thanks to\b0\par
+\pard\li360\par
+\pard\qc\ul\b Trancexx\ulnone\b0\par
+One of the main developers of the AutoIt scripting language and much support on my stupid \par
+problems, also responsible for the WinHTTP UDF, I also use many of their functions in my script.\par
+\par
+\ul\b Prog@ndy\par
+\ulnone\b0 Also helped develop the WinHTTP UDF, I'm more than sure a few snippets of his work are in here \par
+somewhere ;3\par
+\par
+\ul\b FredAI\ulnone\b0\par
+ For an introduction and example into multi-threading using C/C++.\par
+\par
+\ul\b Andreik\ulnone\b0\par
+ For much support in my stupid questions on C/C++!\par
+\par
+\ul\b Loves Like Derpy\ulnone\b0\par
+For support and contributions in the BanBuster.dll proxy testing library and personal help with \par
+Visual Studio.\par
+\par
+\ul\b Melba23\ulnone\b0\par
+For my very first introduction into the language.\par
+\par
+\ul\b TheLuBu\ulnone\b0  & \ul\b UEZ\par
+\ulnone\b0 For code I used and modified to make the logo.\par
+\par
+\ul\b Ward\ulnone\b0\par
+ZLIB UDF developer and I'm prett sure I've used more of his stuff somewhere.\par
+\par
+\ul\b eukalyptus\ulnone\b0\par
+For the neat starwars like credits in the about tab, had a hard time making that code work for me..\par
+\par
+\ul\b Fida Florian (piccaso), jchd and jpm\par
+\ulnone\b0 For development of the SQLite UDF.\par
+\par
+\ul\b !RAINBOWuMA\ulnone\b0  & \ul\b Shiny !hmDRAGoNmM\ulnone\b0\par
+For extensive help in debugging.\par
+\par
+\b\fs36 ===========================\par
+===  \cf3\ul\i Why Does This Exist?\cf2\ulnone\i0   ===\par
+===========================\par
+\fs24\par
+\b0 BanBuster was created with the intention to quickly, efficiantly and easily search for, find and use proxies on 4chan. Sometimes some people can't change their IP or just don't know how, so I thought this would help, it helped me. BanBuster can help someone build up a small arsenal of proxies for use at a later time, so when the going gets tough, you can hit that test button and get your fix. Some people who already know how to ban evade using other methods still keep banbuster handy for its ability to work with chrome and let a user quickly switch proxies in seconds. If you're banned, getting un-banned is just a double click away.\fs20\par
+\par
+\cf9\b\i GOOD LUCK SOLDIER!\par
+-ScriptKitty\cf2\b0\i0\par
+\par
+}
+ 
