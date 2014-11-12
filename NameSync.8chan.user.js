@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         8chan Name Sync
-// @version      0.2.3
+// @version      0.3.0
 // @namespace    nokosage
 // @description  Enables names on 8chan. Does not require 8chan X.
 // @author       nokosage
@@ -13,7 +13,7 @@
 // ==/UserScript==
 
 /*
-  8chan Sync v0.2.3
+  8chan Sync v0.3.0
   https://www.namesync.org/8chan/
 
   Developers:
@@ -344,7 +344,7 @@
   
   g = {
     NAMESPACE: 'NameSync.8chan.',
-    VERSION: '0.2.3',
+    VERSION: '0.3.0',
     checked: false,
     posts: {}
   };
@@ -771,7 +771,7 @@
   })();
   
   Tripfag_Finder = {
-    VERSION: '2.0.3',
+    VERSION: '2.1.0',
     init: function () {
       Tripfag_Finder.createButtons();
     },
@@ -800,30 +800,39 @@
       $html = '<div id="threadFinderContainer" class="post reply" style="position: relative; max-height: 85%; width: 300px; left: 50%; margin-left: -150px; top: 10%; text-align: center;">'+
                 '<fieldset>'+
                   '<legend style="font-weight: bold;">Threads</legend>'+
-                  '<fieldset id="tf_passwords">'+
-                    '<legend style="font-weight: bold; visibility: visible;"><a href="javascript:void(0);" title="Show options" class="tf_optionsLink">4chan</a></legend>'+
-                    '<div id="tf_threadWrapper"></div>'+
-                    '<div id="tf_online">Online Users: Waiting...</div>'+
-                  '</fieldset>'+
-                  '<fieldset id="tf_passwords">'+
+                  '<fieldset id="tf_8chan_hidden" style="display: none;" style="border-bottom: 0px none; border-left: 0px none; border-right: 0px none; padding: 0px 10px;">'+
                     '<legend style="font-weight: bold; visibility: visible;"><a href="javascript:void(0);" title="Show options" class="tf_optionsLink">8chan</a></legend>'+
-                    '<div id="tf_threadWrapper2"></div>'+
-                    '<div id="tf_online">Online Users: [Available Soon]</div>'+
                   '</fieldset>'+
-                  '<input type="button" value="Refresh">'+
-                  '<select id="tf_type">'+
-                    '<option value="animu">Animu</option>'+
-                    '<option value="draw">Draw</option>'+
-                    '<option value="gfur">Gfur</option>'+
-                    '<option value="pony">Pony</option>'+
-                    '<option value="sfur">Sfur</option>'+
-                    '<option value="trap">Trap</option>'+
-                    '<option value="loli">Loli</option>'+
-                    '<option value="shota">Shota</option>'+
-                    '<option value="ks">KS</option>'+
-                  '</select>'+
-                  '<input type="button" style="width: auto;" value="Mark">'+
-                  '<input type="button" style="width: auto;" value="Unmark">'+
+                  '<fieldset id="tf_8chan">'+
+                    '<legend style="font-weight: bold; visibility: visible;"><a href="javascript:void(0);" title="Show options" class="tf_optionsLink">8chan</a></legend>'+
+                    '<div class="tf_threadWrapper"></div>'+
+                    '<div class="tf_online">Online Users: Waiting...</div>'+
+                  '</fieldset>'+
+                  '<fieldset id="tf_4chan_hidden" style="border-bottom: 0px none; border-left: 0px none; border-right: 0px none; padding: 0px 10px;">'+
+                    '<legend style="font-weight: bold; visibility: visible;"><a href="javascript:void(0);" title="Show options" class="tf_optionsLink">4chan</a></legend>'+
+                  '</fieldset>'+
+                  '<fieldset id="tf_4chan" style="display: none;">'+
+                    '<legend style="font-weight: bold; visibility: visible;"><a href="javascript:void(0);" title="Show options" class="tf_optionsLink">4chan</a></legend>'+
+                    '<div class="tf_threadWrapper"></div>'+
+                    '<div class="tf_online">Online Users: Waiting...</div>'+
+                  '</fieldset>'+
+                  '<span id="tf_buttons" style="display: block; margin: 5px 0px;">'+
+                    '<input type="button" value="Refresh">'+
+                    '<select id="tf_type">'+
+                      '<option value="animu">Animu</option>'+
+                      '<option value="draw">Draw</option>'+
+                      '<option value="gfur">Gfur</option>'+
+                      '<option value="pony">Pony</option>'+
+                      '<option value="sfur">Sfur</option>'+
+                      '<option value="trap">Trap</option>'+
+                      '<option value="loli">Loli</option>'+
+                      '<option value="shota">Shota</option>'+
+                      '<option value="ks">KS</option>'+
+                      '<option value="poke">Poke</option>'+
+                    '</select>'+
+                    '<input type="button" style="width: auto;" value="Mark">'+
+                    '<input type="button" style="width: auto;" value="Unmark">'+
+                  '</span>'+
                 '</fieldset>'+
                 '<fieldset id="tf_oppart" style="border-bottom: 0px none; border-left: 0px none; border-right: 0px none; padding: 0px 10px;">'+
                   '<legend style="font-weight: bold; visibility: visible;"><a href="javascript:void(0);" title="Show options" class="tf_optionsLink">Options</a></legend>'+
@@ -872,6 +881,22 @@
         $.att($('#tf_oppart'), 'style', 'border-bottom: 0px none; border-left: 0px none; border-right: 0px none; padding: 0px 10px;');
         $.att($('#tf_opfull'), 'style', 'display: none;');
       });
+      $.on($('.tf_optionsLink', $('#tf_4chan_hidden')), 'click', function(e) {
+        $.att($('#tf_4chan_hidden'), 'style', 'display: none;');
+        $.att($('#tf_4chan'), 'style', '');
+      });
+      $.on($('.tf_optionsLink', $('#tf_4chan')), 'click', function(e) {
+        $.att($('#tf_4chan_hidden'), 'style', 'border-bottom: 0px none; border-left: 0px none; border-right: 0px none; padding: 0px 10px;');
+        $.att($('#tf_4chan'), 'style', 'display: none;');
+      });
+      $.on($('.tf_optionsLink', $('#tf_8chan_hidden')), 'click', function(e) {
+        $.att($('#tf_8chan_hidden'), 'style', 'display: none;');
+        $.att($('#tf_8chan'), 'style', '');
+      });
+      $.on($('.tf_optionsLink', $('#tf_8chan')), 'click', function(e) {
+        $.att($('#tf_8chan_hidden'), 'style', 'border-bottom: 0px none; border-left: 0px none; border-right: 0px none; padding: 0px 10px;');
+        $.att($('#tf_8chan'), 'style', 'display: none;');
+      });
       $.on($('#tf_options_save'), 'click', function(e) {
         Tripfag_Finder.save();
       });
@@ -901,27 +926,55 @@
         'ap': admin_password,
         'v': Tripfag_Finder.VERSION
       };
-      $.xhr('POST', 'https://api.b-stats.org/finder/api.php', $POST, function(c) {
+      $.xhr('POST', 'https://t-f.xyz/finder/api.php', $POST, function(c) {
         var finder, threads;
-        $.htm($('#tf_threadWrapper'), '');
+        $.htm($('.tf_threadWrapper', $('#tf_4chan')), '');
         finder = $.JSON(c.responseText);
         threads = finder['data'];
         for (i = 0; i < threads.length; i++) {
-          var el;
-          $html = '<a href="//boards.4chan.org/b/thread/'+threads[i]['thread']+'" class="tf_threadLink">'+threads[i]['type'].charAt(0).toUpperCase()+threads[i]['type'].slice(1)+': '+threads[i]['thread']+' ('+threads[i]['votes']+')</a>'+
-                  '<span class="tf_Counts"> (R: '+threads[i]['r']+' I: '+threads[i]['i']+')</span>'+
-                  '<info thread="'+threads[i]['thread']+'" type="'+threads[i]['type']+'"></info>';
+          var el, mark;
+          mark = threads[i];
+          $html = '<a href="//boards.4chan.org/b/thread/'+mark['thread']+'/" class="tf_threadLink">'+mark['type'].charAt(0).toUpperCase()+mark['type'].slice(1)+': '+mark['thread']+' ('+mark['votes']+')</a>'+
+                  '<span class="tf_Counts"> (R: '+mark['r']+' I: '+mark['i']+')</span>'+
+                  '<info thread="'+mark['thread']+'" type="'+mark['type']+'"></info>';
           if (finder['admin']) $html += ' <a href="javascript:;" class="tf_adminDelete">[x]</a>';
           $el = {
-            'id': 'tf_thread',
+            'class': 'tf_thread',
             'style': 'padding: 2px 0'
           };
-          el = $.htm($.elm('div', $el, $('#tf_threadWrapper')), $html);
-          $.on(el, 'click', function(e) {
-            Tripfag_Finder.deleteThread($.att($('info', e.target.parentNode), 'thread'), $.att($('info', e.target.parentNode), 'type'));
-          });
+          el = $.htm($.elm('div', $el, $('.tf_threadWrapper', $('#tf_4chan'))), $html);
+          if (finder['admin']) {
+            $.on($('.tf_adminDelete', el), 'click', function(e) {
+              Tripfag_Finder.delete4chanThread($.att($('info', e.target.parentNode), 'thread'), $.att($('info', e.target.parentNode), 'type'));
+            });
+          }
         }
-        $.htm($('#tf_online'), 'Online Users: '+finder['users']);
+        $.htm($('.tf_online', $('#tf_4chan')), 'Online Users: '+finder['users']);
+      }, $HEADERS);
+      $.xhr('POST', 'https://www.namesync.org/finder/api.php', $POST, function(c) {
+        var finder, threads;
+        $.htm($('.tf_threadWrapper', $('#tf_8chan')), '');
+        finder = $.JSON(c.responseText);
+        threads = finder['data'];
+        for (i = 0; i < threads.length; i++) {
+          var el, mark;
+          mark = threads[i];
+          $html = '<a href="//8chan.co/'+mark['board']+'/res/'+mark['thread']+'.html" class="tf_threadLink">'+mark['type'].charAt(0).toUpperCase()+mark['type'].slice(1)+': /'+mark['board']+'/'+mark['thread']+' ('+mark['votes']+')</a>'+
+                  '<span class="tf_Counts"> (R: '+mark['r']+' I: '+mark['i']+')</span>'+
+                  '<info thread="'+mark['thread']+'" type="'+mark['type']+'"></info>';
+          if (finder['admin']) $html += ' <a href="javascript:;" class="tf_adminDelete">[x]</a>';
+          $el = {
+            'class': 'tf_thread',
+            'style': 'padding: 2px 0'
+          };
+          el = $.htm($.elm('div', $el, $('.tf_threadWrapper', $('#tf_8chan'))), $html);
+          if (finder['admin']) {
+            $.on($('.tf_adminDelete', el), 'click', function(e) {
+              Tripfag_Finder.delete8chanThread($.att($('info', e.target.parentNode), 'thread'), $.att($('info', e.target.parentNode), 'type'));
+            });
+          }
+        }
+        $.htm($('.tf_online', $('#tf_8chan')), 'Online Users: '+finder['users']);
         $.att($.att($('[value="Loading..."]', $('.threadFinderContainer')), 'value', 'Refresh'), 'disabled', '');
       }, $HEADERS);
     },
@@ -932,12 +985,13 @@
       };
       $POST = {
         'a': 'set',
+        'b': g.board,
         't': g.thread,
         'p': 'idiots',
         'type': $('#tf_type').value,
-        'v': Tripfag_Finder.VERSION
+        'v': g.NAMESPACE + g.VERSION
       };
-      $.xhr('POST', 'https://api.b-stats.org/finder/api.php', $POST, function(c) {
+      $.xhr('POST', 'https://www.namesync.org/finder/api.php', $POST, function(c) {
         Tripfag_Finder.updateThreads();
         $.att($.att($('[value="Mark"]', $('.threadFinderContainer')), 'value', 'Mark'), 'disabled', '');
       }, $HEADERS);
@@ -951,14 +1005,14 @@
         'a': 'unset',
         't': g.thread,
         'p': 'idiots',
-        'v': Tripfag_Finder.VERSION
+        'v': g.NAMESPACE + g.VERSION
       };
-      $.xhr('POST', 'https://api.b-stats.org/finder/api.php', $POST, function(c) {
+      $.xhr('POST', 'https://www.namesync.org/finder/api.php', $POST, function(c) {
         Tripfag_Finder.updateThreads();
         $.att($.att($('[value="Unmark"]', $('.threadFinderContainer')), 'value', 'Unmark'), 'disabled', '');
       }, $HEADERS);
     },
-    deleteThread: function (thread, type) {
+    delete4chanThread: function (thread, type) {
       var password, admin_password;
       password = $.getVal('finder.password');
       admin_password = $.getVal('finder.admin_password');
@@ -970,10 +1024,29 @@
         't': thread,
         'y': type,
         'p': password,
-        'password': admin_password,
+        'ap': admin_password,
         'v': Tripfag_Finder.VERSION
       };
-      $.xhr('POST', 'https://api.b-stats.org/finder/api.php', $POST, function(c) {
+      $.xhr('POST', 'https://t-f.xyz/finder/api.php', $POST, function(c) {
+        Tripfag_Finder.updateThreads();
+      }, $HEADERS);
+    },
+    delete8chanThread: function (thread, type) {
+      var password, admin_password;
+      password = $.getVal('finder.password');
+      admin_password = $.getVal('finder.admin_password');
+      $HEADERS = {
+        'X-Requested-With': '' + g.NAMESPACE + 'v' + g.VERSION
+      };
+      $POST = {
+        'a': 'delete',
+        't': thread,
+        'y': type,
+        'p': password,
+        'ap': admin_password,
+        'v': g.NAMESPACE + g.VERSION
+      };
+      $.xhr('POST', 'https://www.namesync.org/finder/api.php', $POST, function(c) {
         Tripfag_Finder.updateThreads();
       }, $HEADERS);
     },
