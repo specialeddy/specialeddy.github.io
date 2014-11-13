@@ -215,6 +215,14 @@ a img {
   overflow: auto;
 }
 
+.item .error {
+  margin: 0px -22px 0px 0px;
+  z-index: 1;
+  position: relative;
+  right: -16px;
+  top: 12px;
+}
+
 .icon {
   float: left;
   position: relative;
