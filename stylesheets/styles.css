@@ -215,15 +215,20 @@ a img {
   overflow: auto;
 }
 
+.error {
+  display: inline-block;
+  width: 16px;
+  height: 15px;
+}
+
 .item .error {
   margin: 0px -22px 0px 0px;
   z-index: 1;
-  position: relative;
   right: -16px;
   top: 12px;
 }
 
-.icon {
+.icon, .error {
   float: left;
   position: relative;
   top: -5px;
@@ -233,6 +238,12 @@ a img {
 .iconcentered {
   padding: 0px 2px 0px 0px;
   vertical-align: middle;
+}
+
+.icon, .iconcentered {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
 }
 
 .info {
@@ -253,6 +264,18 @@ a img {
 
 .buttoncontainer {
   float: right;
+}
+
+.installbutton, .sourcebutton, .archivebutton {
+  height: 29px;
+}
+
+.installbutton {
+  width: 77px;
+}
+
+.sourcebutton, .archivebutton {
+  width: 81px;
 }
 
 @media print, screen and (max-width: 960px) {
