@@ -255,9 +255,6 @@ a img {
 
 .buttoncontainer {
   float: right;
-}
-
-.buttoncontainer a {
   line-height: 42px;
 }
 
