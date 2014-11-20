@@ -176,12 +176,8 @@ footer {
   bottom:50px;
 }
 
-.h1pad {
-  padding: 0px 0px 5px 0px;
-}
-
 .list {
-  padding: 0px 0px 10px 0px;
+  padding: 0px 0px 15px;
 }
 
 a img {
@@ -201,7 +197,7 @@ a img {
 
 .item {
   position: relative;
-  top: -4px;
+  top: -5px;
   padding: 10px 0px;
   overflow: auto;
 }
