@@ -202,7 +202,7 @@ a img {
 .item {
   position: relative;
   top: -4px;
-  padding: 10px 0px 10px 0px;
+  padding: 10px 0px;
   overflow: auto;
 }
 
@@ -257,8 +257,13 @@ a img {
   float: right;
 }
 
+.buttoncontainer a {
+  line-height: 42px;
+}
+
 .installbutton, .sourcebutton, .archivebutton {
   height: 29px;
+  vertical-align: middle;
 }
 
 .installbutton {
