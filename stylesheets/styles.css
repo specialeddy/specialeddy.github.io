@@ -183,6 +183,13 @@ footer {
   width: 85%;
 }
 
+.icon48 {
+  display: inline-block;
+  width: 48px;
+  height: 48px;
+  vertical-align: middle;
+}
+
 .list {
   padding: 0px 0px 15px;
 }
@@ -238,14 +245,6 @@ a img {
   display: inline-block;
   width: 32px;
   height: 32px;
-}
-
-.icon48 {
-  display: inline-block;
-  width: 48px;
-  height: 48px;
-  vertical-align: middle;
-  margin: 0px 10px;
 }
 
 .info {
