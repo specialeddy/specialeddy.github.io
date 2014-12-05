@@ -4,19 +4,19 @@
 #AutoIt3Wrapper_Compression=4
 #AutoIt3Wrapper_UseUpx=n
 #AutoIt3Wrapper_Res_Description=Some kind of program.
-#AutoIt3Wrapper_Res_Fileversion=1.0.0.9
+#AutoIt3Wrapper_Res_Fileversion=1.0.0.10
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=y
 #AutoIt3Wrapper_Res_LegalCopyright=ScriptKitty
 #AutoIt3Wrapper_Res_Language=1033
-#AutoIt3Wrapper_Res_Field=WebSite|http://the.jewpony.com/
+#AutoIt3Wrapper_Res_Field=WebSite|http://steamcommunity.com/groups/ponybread
 #AutoIt3Wrapper_Res_Field=Contact|SouthSidePonyClick@Gmail.com
 #AutoIt3Wrapper_Res_Icon_Add=inc\ico\ready.ico
 #AutoIt3Wrapper_Res_Icon_Add=inc\ico\red.ico
 #AutoIt3Wrapper_Res_Icon_Add=inc\ico\green.ico
 #AutoIt3Wrapper_Res_Icon_Add=inc\ico\blue.ico
 #AutoIt3Wrapper_Res_Icon_Add=inc\ico\idle.ico
-#AutoIt3Wrapper_Run_Obfuscator=y
-#Obfuscator_Parameters=/so
+#AutoIt3Wrapper_Run_Au3Stripper=y
+#Au3Stripper_Parameters=/so
 #EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
 
 Global Enum $ICO_READY = 201, $ICO_RED, $ICO_GREEN, $ICO_BLUE, $ICO_IDLE
@@ -1555,7 +1555,7 @@ Func _PostName($THREAD_ID, $POST_ID)
 			'pragma: no-cache' & @CRLF & _
 			'accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8' & @CRLF & _
 			'origin: https://boards.4chan.org' & @CRLF & _
-			'x-requested-with: NameSync4.6.2' & @CRLF & _
+			'x-requested-with: NameSync4.8.1' & @CRLF & _
 			'content-type: application/x-www-form-urlencoded; charset=UTF-8' & @CRLF & _
 			'accept-encoding: gzip;q=1,*;q=0' & @CRLF
 
