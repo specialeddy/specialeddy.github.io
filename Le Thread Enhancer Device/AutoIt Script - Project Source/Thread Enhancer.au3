@@ -2256,7 +2256,7 @@ Func _GDIPlus_SaveImageToStream($hBitmap, $iQuality = 50, $Encoder = "jpg") ;cod
     Local $hStream = DllCall("ole32.dll", "uint", "CreateStreamOnHGlobal", "ptr", 0, "bool", True, "ptr*", 0)
     If @error Then Return SetError(1, 0, 0)
     $hStream = $hStream[3]
-    DllCall($ghGDIPDll, "uint", "GdipSaveImageToStream", "ptr", $hBitmap, "ptr", $hStream, "ptr", $pEncoder, "ptr", $pParams)
+    DllCall($__g_hGDIPDll, "uint", "GdipSaveImageToStream", "ptr", $hBitmap, "ptr", $hStream, "ptr", $pEncoder, "ptr", $pParams)
     _GDIPlus_BitmapDispose($hBitmap)
     Local $hMemory = DllCall("ole32.dll", "uint", "GetHGlobalFromStream", "ptr", $hStream, "ptr*", 0)
     If @error Then Return SetError(2, 0, 0)
@@ -2307,7 +2307,7 @@ Func Load_BMP_From_Mem($bImage, $hHBITMAP = False)
 	$aResult = DllCall("ole32.dll", "int", "CreateStreamOnHGlobal", "handle", $pData, "int", True, "ptr*", 0) ;Creates a stream object that uses an HGLOBAL memory handle to store the stream contents
 	If @error Then SetError(2, 0, 0)
 	Local Const $hStream = $aResult[3]
-	$aResult = DllCall($ghGDIPDll, "uint", "GdipCreateBitmapFromStream", "ptr", $hStream, "int*", 0) ;Creates a Bitmap object based on an IStream COM interface
+	$aResult = DllCall($__g_hGDIPDll, "uint", "GdipCreateBitmapFromStream", "ptr", $hStream, "int*", 0) ;Creates a Bitmap object based on an IStream COM interface
 	If @error Then SetError(3, 0, 0)
 	Local Const $hBitmap = $aResult[2]
 	Local $tVARIANT = DllStructCreate("word vt;word r1;word r2;word r3;ptr data; ptr")
@@ -2325,7 +2325,7 @@ EndFunc   ;==>Load_BMP_From_Mem
 
 Func _GDIPlus_BitmapCreateDIBFromBitmap($hBitmap)
 	Local $tBIHDR, $Ret, $tData, $pBits, $hResult = 0
-	$Ret = DllCall($ghGDIPDll, 'uint', 'GdipGetImageDimension', 'ptr', $hBitmap, 'float*', 0, 'float*', 0)
+	$Ret = DllCall($__g_hGDIPDll, 'uint', 'GdipGetImageDimension', 'ptr', $hBitmap, 'float*', 0, 'float*', 0)
 	If (@error) Or ($Ret[0]) Then Return 0
 	$tData = _GDIPlus_BitmapLockBits($hBitmap, 0, 0, $Ret[2], $Ret[3], $GDIP_ILMREAD, $GDIP_PXF32ARGB)
 	$pBits = DllStructGetData($tData, 'Scan0')
@@ -2394,7 +2394,7 @@ _GDIPlus_ImageAttributesSetColorMatrix()
 
 ;Same as _GDIPlus_GraphicsDrawImageRectRect(), but adds 1 optional parameter - $hImgAttrib (handle to ImageAttributes object)
 Func _GDIPlus_GraphicsDrawImageRectRectEx($hGraphics, $hImage, $iSrcX, $iSrcY, $iSrcWidth, $iSrcHeight, $iDstX, $iDstY, $iDstWidth, $iDstHeight, $iUnit = 2, $hImgAttrib = 0)
-    Local $aResult = DllCall($ghGDIPDll, "int", "GdipDrawImageRectRectI", "hwnd", $hGraphics, "hwnd", $hImage, "int", $iDstX, "int", _
+    Local $aResult = DllCall($__g_hGDIPDll, "int", "GdipDrawImageRectRectI", "hwnd", $hGraphics, "hwnd", $hImage, "int", $iDstX, "int", _
             $iDstY, "int", $iDstWidth, "int", $iDstHeight, "int", $iSrcX, "int", $iSrcY, "int", $iSrcWidth, "int", _
             $iSrcHeight, "int", $iUnit, "ptr", $hImgAttrib, "int", 0, "int", 0)
     Return SetError($aResult[0], 0, $aResult[0] = 0)
@@ -2427,11 +2427,11 @@ Func ScaleImage($sFile, $iNewWidth, $iNewHeight, $iInterpolationMode = 7) ;coded
         $iH = Int($iH * $fRatio)
     EndIf
 
-    Local $hBitmap = DllCall($ghGDIPDll, "uint", "GdipCreateBitmapFromScan0", "int", $iW, "int", $iH, "int", 0, "int", 0x0026200A, "ptr", 0, "int*", 0)
+    Local $hBitmap = DllCall($__g_hGDIPDll, "uint", "GdipCreateBitmapFromScan0", "int", $iW, "int", $iH, "int", 0, "int", 0x0026200A, "ptr", 0, "int*", 0)
     If @error Then Return SetError(3, 0, 0)
     $hBitmap = $hBitmap[6]
     Local $hBmpCtxt = _GDIPlus_ImageGetGraphicsContext($hBitmap)
-    DllCall($ghGDIPDll, "uint", "GdipSetInterpolationMode", "handle", $hBmpCtxt, "int", $iInterpolationMode)
+    DllCall($__g_hGDIPDll, "uint", "GdipSetInterpolationMode", "handle", $hBmpCtxt, "int", $iInterpolationMode)
 	;_GDIPLUS_GraphicsSetInterpolationMode($hBmpCtxt, $iInterpolationMode)
     _GDIPlus_GraphicsDrawImageRect($hBmpCtxt, $hImage, 0, 0, $iW, $iH)
     _GDIPlus_ImageDispose($hImage)
