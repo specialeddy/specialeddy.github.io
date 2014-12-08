@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         8chan Name Sync
-// @version      0.3.0
+// @version      0.3.2
 // @namespace    nokosage
 // @description  Enables names on 8chan. Does not require 8chan X.
 // @author       nokosage
@@ -13,7 +13,7 @@
 // ==/UserScript==
 
 /*
-  8chan Sync v0.3.0
+  8chan Sync v0.3.2
   https://www.namesync.org/8chan/
 
   Developers:
@@ -344,7 +344,7 @@
   
   g = {
     NAMESPACE: 'NameSync.8chan.',
-    VERSION: '0.3.0',
+    VERSION: '0.3.2',
     checked: false,
     posts: {}
   };
@@ -410,6 +410,8 @@
                   '<div>'+
                     '<label style="text-decoration: underline; font-weight: bold;cursor: pointer;"><input type="checkbox" name="NameSync Finder">NameSync Finder</label>'+
                     '<span class="description" style="font-style: italic; font-size: 9pt;">Enables functionality to find and mark threads.</span>'+
+                    '<label style="text-decoration: underline; font-weight: bold;cursor: pointer;"><input type="checkbox" name="Mark NameSync Posts">Mark NameSync Posts</label>'+
+                    '<span class="description" style="font-style: italic; font-size: 9pt;">Marks posts that have NameSync names.</span>'+
                   '</div>'+
                   '<legend style="font-weight: bold;">Main</legend>'+
                 '</fieldset>'+
@@ -446,13 +448,20 @@
       if ($.getVal('persona.name') !== 'undefined') $('#NameSync_Name').value = $.getVal('persona.name');
       if ($.getVal('persona.email') !== 'undefined') $('#NameSync_Email').value = $.getVal('persona.email');
       if ($.getVal('persona.subject') !== 'undefined') $('#NameSync_Subject').value = $.getVal('persona.subject');
-      if ($.getVal('main.namesync_finder') === 'true') $.att($('[name="NameSync Finder"]'), 'checked', 'true');
+      if ($.getVal('main.namesync_finder') === 'true') $.att($('input[name="NameSync Finder"]'), 'checked', 'true');
+      if ($.getVal('main.mark_posts') === 'true') $.att($('input[name="Mark NameSync Posts"]'), 'checked', 'true');
       
       $.on($('#NameSync_Settings'), 'click', function(e) {
         if (e.target.id === 'NameSync_Settings')
           Settings.close();
       });
       $.on($('#NameSync_Save'), 'click', function(e) {
+        Settings.save();
+      });
+      $.on($('input[name="NameSync Finder"]'), 'click', function(e) {
+        Settings.save();
+      });
+      $.on($('input[name="Mark NameSync Posts"]'), 'click', function(e) {
         Settings.save();
       });
       $.on($('#clearNameSync_Name'), 'click', function(e) {
@@ -475,16 +484,18 @@
       
     },
     save: function() {
-      var subject, name, email, tripfag_finder;
+      var subject, name, email, tripfag_finder, mark_posts;
       subject = $('#NameSync_Subject').value;
       name = $('#NameSync_Name').value;
       email = $('#NameSync_Email').value;
-      tripfag_finder = ($('[name="NameSync Finder"]:checked')) ? true : false;
+      tripfag_finder = ($('input[name="NameSync Finder"]:checked')) ? true : false;
+      mark_posts = ($('input[name="Mark NameSync Posts"]:checked')) ? true : false;
       
       $.setVal('persona.name', name);
       $.setVal('persona.subject', subject);
       $.setVal('persona.email', email);
       $.setVal('main.namesync_finder', tripfag_finder);
+      $.setVal('main.mark_posts', mark_posts);
       
       if (!tripfag_finder && $('#finder_button', $('#mod_options'))) {
         $.destroy($('#finder_button', $('#mod_options')).previousSibling);
@@ -493,10 +504,19 @@
       if (tripfag_finder && !$('#finder_button', $('#mod_options'))) Tripfag_Finder.init();
     }
   };
-  /*
-  CSS = {
-  };
-  */
+
+  $.css('\
+.sync-post:after {\
+  bottom: 2px;\
+  content: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAMAAAAMCGV4AAAAqFBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWFhYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWFhYAAAAAAAAAAAAAAAAAAAAWFhYAAAAAAAAWFhYAAAAWFhYWFhYAAAAAAAAAAAAAAAAAAAAWFhYAAAAAAAAWFhYWFhYAAAAAAAAAAAAAAAAWFhYAAAAAAAAAAAAAAAAAAAAPAnI3AAAAOHRSTlMzADU0NiwGJjIvDi03AAEEFyUnHzAkCQUCIQUSKy0xHSgIKS4aESoKGCYDDCIvKBYpHg4jEBMHFH8kut4AAACvSURBVHheHY7FlsNADAQFw7ZjjO0wMy3v//9ZNO6DXpd0KAFK8sImiS1yxC7yISFiJtLhtBYuFMEQcssHYCCWqpRMpgX0H3JV+rOegywW8MOCkx4xMDPtoCYgPUJs5433zRZMu2mnIrlOc2NMB3tbluXxVzZnr5ML2JQonQjeHHF6h7HI+fmarVwUfkWO+sGffmcwVixtiNImg6qe+XgDospgBmGEfyu9dE31L19kb12bCeREPHJzAAAAAElFTkSuQmCC");\
+  position: absolute;\
+  right: 5px;\
+}\
+.sync-post {\
+  position: relative;\
+}'
+  );
+
   NameSync = {
     pollReady: true,
     ready: function () {
@@ -585,8 +605,6 @@
     lastUpdate: 0,
     updateAllPosts: function () {
       var _i, _len, key, data;
-      //console.log(g.posts);
-      //console.log(Names.namesync);
       for (_i = 0, _len = Names.namesync.length; _i < _len; _i++) {
         data = Names.namesync[_i];
         key = data['p'];
@@ -642,6 +660,9 @@
           namespan.textContent = '';
         }
         tripspan.textContent = tripcode;
+      }
+      if ($.getVal('main.mark_posts') === 'true') {
+        $.addClass($('.body', post.nodes.post), 'sync-post');
       }
       Names.lastUpdate = data.time;
     }
