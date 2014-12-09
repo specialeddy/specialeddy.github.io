@@ -5572,139 +5572,145 @@
 
   QR.captcha = {
     init: function() {
-      var imgContainer, input;
+      var container, counter, section;
       if (d.cookie.indexOf('pass_enabled=1') >= 0) {
         return;
       }
-      if (!(this.isEnabled = !!$.id('captchaContainer'))) {
+      if (!(this.isEnabled = !!$.id('g-recaptcha'))) {
         return;
       }
-      if (Conf['Auto-load captcha']) {
-        $.globalEval('loadRecaptcha()');
-      }
-      imgContainer = $.el('div', {
-        className: 'captcha-img',
-        title: 'Reload reCAPTCHA'
-      });
-      $.extend(imgContainer, {
-        innerHTML: "<img>"
-      });
-      input = $.el('input', {
-        className: 'captcha-input field',
-        title: 'Verification',
-        autocomplete: 'off',
-        spellcheck: false,
-      });
-      this.nodes = {
-        img: imgContainer.firstChild,
-        input: input
-      };
-      $.on(input, 'blur', QR.focusout);
-      $.on(input, 'focus', QR.focusin);
-      $.on(input, 'keydown', QR.captcha.keydown.bind(QR.captcha));
-      $.on(this.nodes.img.parentNode, 'click', QR.captcha.reload.bind(QR.captcha));
-      $.addClass(QR.nodes.el, 'has-captcha');
-      $.after(QR.nodes.com.parentNode, [imgContainer, input]);
       this.captchas = [];
       $.get('captchas', [], function(_arg) {
         var captchas;
         captchas = _arg.captchas;
-        QR.captcha.sync(captchas);
-        return QR.captcha.clear();
+        return QR.captcha.sync(captchas);
       });
-      $.sync('captchas', this.sync);
-      new MutationObserver(this.afterSetup).observe($.id('captchaContainer'), {
-        childList: true
+      $.sync('captchas', this.sync.bind(this));
+      section = $.el('div', {
+        className: 'captcha-section'
       });
-      this.beforeSetup();
-      return this.afterSetup();
-    },
-    beforeSetup: function() {
-      var img, input, _ref;
-      _ref = this.nodes, img = _ref.img, input = _ref.input;
-      img.parentNode.hidden = true;
-      input.value = '';
-      input.placeholder = 'Focus to load reCAPTCHA';
-      this.count();
-      return $.on(input, 'focus', this.setup);
-    },
-    setup: function() {
-      return $.globalEval('loadRecaptcha()');
-    },
-    afterSetup: function() {
-      var challenge, img, input, setLifetime, _ref;
-      if (!(challenge = $.id('recaptcha_challenge_field_holder'))) {
-        return;
-      }
-      if (challenge === QR.captcha.nodes.challenge) {
-        return;
-      }
-      setLifetime = function(e) {
-        return QR.captcha.lifetime = e.detail;
+      $.extend(section, {
+        innerHTML: "<div class=\"captcha-container\"></div><div class=\"captcha-counter\"><a href=\"javascript:;\"></a></div>"
+      });
+      container = $('.captcha-container', section);
+      counter = $('.captcha-counter > a', section);
+      this.nodes = {
+        container: container,
+        counter: counter
       };
-      $.on(window, 'captcha:timeout', setLifetime);
-      $.globalEval('window.dispatchEvent(new CustomEvent("captcha:timeout", {detail: RecaptchaState.timeout}))');
-      $.off(window, 'captcha:timeout', setLifetime);
-      _ref = QR.captcha.nodes, img = _ref.img, input = _ref.input;
-      img.parentNode.hidden = false;
-      input.placeholder = 'Verification';
-      QR.captcha.count();
-      $.off(input, 'focus', QR.captcha.setup);
-      QR.captcha.nodes.challenge = challenge;
-      new MutationObserver(QR.captcha.load.bind(QR.captcha)).observe(challenge, {
+      this.count();
+      $.addClass(QR.nodes.el, 'has-captcha');
+      $.after(QR.nodes.com.parentNode, section);
+      new MutationObserver(this.afterSetup.bind(this)).observe(container, {
         childList: true,
-        subtree: true,
-        attributes: true
+        subtree: true
       });
-      QR.captcha.load();
-      if (QR.nodes.el.getBoundingClientRect().bottom > doc.clientHeight) {
-        QR.nodes.el.style.top = null;
-        return QR.nodes.el.style.bottom = '0px';
+      $.on(counter, 'click', this.toggle.bind(this));
+      return $.on(window, 'captcha:success', this.save.bind(this));
+    },
+    shouldFocus: false,
+    timeouts: {},
+    needed: function() {
+      var captchaCount, postsCount;
+      captchaCount = this.captchas.length;
+      if (this.nodes.container.dataset.widgetID && !this.timeouts.destroy) {
+        captchaCount++;
+      }
+      postsCount = QR.posts.length;
+      if (postsCount === 1 && !Conf['Auto-load captcha'] && !QR.posts[0].com && !QR.posts[0].file) {
+        postsCount = 0;
+      }
+      return captchaCount < postsCount;
+    },
+    toggle: function() {
+      if (this.nodes.container.dataset.widgetID && !this.timeouts.destroy) {
+        return this.destroy();
+      } else {
+        this.shouldFocus = true;
+        return this.setup(true);
       }
     },
-    destroy: function() {
-      $.globalEval('Recaptcha.destroy()');
-      return this.beforeSetup();
+    setup: function(force) {
+      if (!(this.isEnabled && (this.needed() || force))) {
+        return;
+      }
+      $.addClass(QR.nodes.el, 'captcha-open');
+      if (this.timeouts.destroy) {
+        clearTimeout(this.timeouts.destroy);
+        delete this.timeouts.destroy;
+        return this.reload();
+      }
+      if (this.nodes.container.dataset.widgetID) {
+        return;
+      }
+      return $.globalEval('(function() {\n  var container = document.querySelector("#qr .captcha-container");\n  container.dataset.widgetID = window.grecaptcha.render(container, {\n    sitekey: \'6Ldp2bsSAAAAAAJ5uyx_lx34lJeEpTLVkP5k04qc\',\n    theme: document.documentElement.classList.contains(\'tomorrow\') ? \'dark\' : \'light\',\n    callback: function(response) {\n      window.dispatchEvent(new CustomEvent("captcha:success", {detail: response}));\n    }\n  });\n})();');
     },
-    sync: function(captchas) {
-      QR.captcha.captchas = captchas;
-      return QR.captcha.count();
-    },
-    getOne: function() {
-      var captcha, challenge, response;
-      this.clear();
-      if (captcha = this.captchas.shift()) {
-        challenge = captcha.challenge, response = captcha.response;
-        this.count();
-        $.set('captchas', this.captchas);
-      } else {
-        challenge = this.nodes.img.alt;
-        if (response = this.nodes.input.value) {
-          if (Conf['Auto-load captcha']) {
-            this.reload();
-          } else {
-            this.destroy();
+    afterSetup: function(mutations) {
+      var iframe, mutation, node, _i, _j, _len, _len1, _ref;
+      for (_i = 0, _len = mutations.length; _i < _len; _i++) {
+        mutation = mutations[_i];
+        _ref = mutation.addedNodes;
+        for (_j = 0, _len1 = _ref.length; _j < _len1; _j++) {
+          node = _ref[_j];
+          if (node.nodeName === 'IFRAME') {
+            iframe = node;
           }
         }
       }
-      return {
-        challenge: challenge,
-        response: response
-      };
-    },
-    save: function() {
-      var response;
-      if (!/\S/.test(response = this.nodes.input.value)) {
+      if (!iframe) {
         return;
       }
-      this.nodes.input.value = '';
+      if (QR.nodes.el.getBoundingClientRect().bottom > doc.clientHeight) {
+        QR.nodes.el.style.top = null;
+        QR.nodes.el.style.bottom = '0px';
+      }
+      if (this.shouldFocus) {
+        iframe.focus();
+      }
+      return this.shouldFocus = false;
+    },
+    destroy: function() {
+      if (!this.isEnabled) {
+        return;
+      }
+      delete this.timeouts.destroy;
+      $.rmClass(QR.nodes.el, 'captcha-open');
+      $.rmAll(this.nodes.container);
+      return this.nodes.container.removeAttribute('data-widget-i-d');
+    },
+    sync: function(captchas) {
+      this.captchas = captchas;
+      this.clear();
+      return this.count();
+    },
+    getOne: function() {
+      var captcha;
+      this.clear();
+      if (captcha = this.captchas.shift()) {
+        this.count();
+        $.set('captchas', this.captchas);
+        return captcha.response;
+      } else {
+        return null;
+      }
+    },
+    save: function(e) {
+      var _base;
+      if (this.needed()) {
+        this.shouldFocus = true;
+        this.reload();
+      } else {
+        this.nodes.counter.focus();
+        if ((_base = this.timeouts).destroy == null) {
+          _base.destroy = setTimeout(this.destroy.bind(this), 3 * $.SECOND);
+        }
+      }
+      $.forceSync('captchas');
       this.captchas.push({
-        challenge: this.nodes.img.alt,
-        response: response,
-        timeout: this.timeout
+        response: e.detail,
+        timeout: Date.now() + 2 * $.MINUTE
       });
       this.count();
-      this.reload();
       return $.set('captchas', this.captchas);
     },
     clear: function() {
@@ -5725,60 +5731,18 @@
       }
       this.captchas = this.captchas.slice(i);
       this.count();
-      return $.set('captchas', this.captchas);
-    },
-    load: function() {
-      var challenge, challenge_image;
-      if (!this.nodes.challenge.firstChild) {
-        return;
-      }
-      if (!(challenge_image = $.id('recaptcha_challenge_image'))) {
-        return;
-      }
-      this.timeout = Date.now() + this.lifetime * $.SECOND - $.MINUTE;
-      challenge = this.nodes.challenge.firstChild.value;
-      this.nodes.img.alt = challenge;
-      this.nodes.img.src = challenge_image.src;
-      this.nodes.input.value = null;
-      return this.clear();
+      $.set('captchas', this.captchas);
+      return this.setup();
     },
     count: function() {
-      var count, placeholder;
-      count = this.captchas ? this.captchas.length : 0;
-      placeholder = this.nodes.input.placeholder.replace(/\ \(.*\)$/, '');
-      placeholder += (function() {
-        switch (count) {
-          case 0:
-            if (placeholder === 'Verification') {
-              return ' (Shift + Enter to cache)';
-            } else {
-              return '';
-            }
-            break;
-          case 1:
-            return ' (1 cached captcha)';
-          default:
-            return " (" + count + " cached captchas)";
-        }
-      })();
-      this.nodes.input.placeholder = placeholder;
-      return this.nodes.input.alt = count;
+      this.nodes.counter.textContent = "Captchas: " + this.captchas.length;
+      clearTimeout(this.timeouts.clear);
+      if (this.captchas.length) {
+        return this.timeouts.clear = setTimeout(this.clear.bind(this), this.captchas[0].timeout - Date.now());
+      }
     },
     reload: function(focus) {
-      $.globalEval('Recaptcha.reload(); Recaptcha.should_focus = false;');
-      if (focus) {
-        return this.nodes.input.focus();
-      }
-    },
-    keydown: function(e) {
-      if (e.keyCode === 8 && !this.nodes.input.value) {
-        this.reload();
-      } else if (e.keyCode === 13 && e.shiftKey) {
-        this.save();
-      } else {
-        return;
-      }
-      return e.preventDefault();
+      return $.globalEval('(function() {\n  var container = document.querySelector("#qr .captcha-container");\n  window.grecaptcha.reset(container.dataset.widgetID);\n})();');
     }
   };
 
