@@ -216,20 +216,20 @@ a img {
   overflow: auto;
 }
 
-.error {
+.problem {
   display: inline-block;
   width: 16px;
-  height: 15px;
+  height: 16px;
 }
 
-.item .error {
+.item .problem {
   margin: 0px -22px 0px 0px;
   z-index: 1;
   right: -16px;
-  top: 12px;
+  top: 11px;
 }
 
-.icon, .error {
+.icon, .problem {
   float: left;
   position: relative;
   top: -5px;
