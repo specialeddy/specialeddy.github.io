@@ -1,19 +1,19 @@
-// ==UserScript==
+﻿// ==UserScript==
 // @name        8chan Z
 // @namespace   nokosage
 // @description Attempts to improve/overhaul the 8chan experience.
 // @author      nokosage
 // @license     MIT; https://github.com/nokosage/8chan-Z/blob/master/LICENSE
-// @include     *://*8chan.co/*
+// @include     *://*8ch*
 // @run-at      document-start
-// @version     0.4.4
+// @version     0.4.6
 // @grant       none
 // @updateURL   https://raw.githubusercontent.com/nokosage/8chan-Z/master/8chan-Z.meta.js
 // @downloadURL https://raw.githubusercontent.com/nokosage/8chan-Z/master/8chan-Z.user.js
 // ==/UserScript==
 
 /**
- * 8chan Z v0.4.4
+ * 8chan Z v0.4.6
  * https://github.com/nokosage/8chan-Z/
  *
  * Developers:
@@ -439,9 +439,9 @@
 
   var Info = {
     NAMESPACE: '8chan-Z.',
-    VERSION: '0.4.4',
+    VERSION: '0.4.6',
     PROTOCOL: location.protocol,
-    HOST: '8chan.co',
+    HOST: '8ch.net',
     view: 'none',
     board: false,
     threads: []
@@ -601,11 +601,11 @@ div.post div.file .fileThumb {\
       });
       Menu.backTos = $.elm('span', {}, Menu.topLeft);
       Menu.backToBoard = $.text($.elm('a', {
-        href: Info.PROTOCOL + '//8chan.co/' + Info.board + '/'
+        href: Info.PROTOCOL + '//' + Info.HOST + '/' + Info.board + '/'
       }, Menu.backTos), Info.board);
       $.after($.tn(' / '), Menu.backToBoard);
       Menu.backToCatalog = $.text($.elm('a', {
-        href: Info.PROTOCOL + '//8chan.co/' + Info.board + '/catalog.html'
+        href: Info.PROTOCOL + '//' + Info.HOST + '/' + Info.board + '/catalog.html'
       }, Menu.backTos), 'catalog');
       $.after($.tn(' / '), Menu.backToCatalog);
       Menu.showTopLeftMenu = $.elm('a', {
