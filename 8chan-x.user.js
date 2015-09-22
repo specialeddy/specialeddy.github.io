@@ -1,9 +1,14 @@
-// ==UserScript==
+﻿// ==UserScript==
 // @name        Tux3's 8chan X
-// @version     1.35
+// @version     1.39
 // @namespace   8chan-X
 // @description Small userscript to improve 8chan
 // @match       *://8chan.co/*
+// @match       *://hatechan.co/*
+// @match       *://jp.8chan.co/*
+// @match       *://8ch.net/*
+// @match       *://h.8chan.co/*
+// @match       *://h.8ch.net/*
 // @run-at      document-end
 // @grant       none
 // @require     http://timeago.yarp.com/jquery.timeago.js
@@ -208,8 +213,14 @@ function initMenu() {
   menu.style.zIndex='50';
   $("html").css("margin-top","15px");
   updateMenuStyle();
+  
+  // Hide forced official menu boards
   document.querySelector('[data-description="1"]').style.display = 'none';
   document.querySelector('[data-description="2"]').style.display = 'none';
+  $('html > head').append($('<style>.sub[data-description="3"] { display:none; }</style>')); //< The "3" is added dynamically after we run
+  
+  // Hide bottom menu, we already have a fixed one
+  $(".boardlist.bottom").hide();
   
   if (isOnCatalog())
     add_favorites();
