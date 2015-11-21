@@ -1,16 +1,16 @@
-    // ==UserScript==
-    // @id             arch.413chan.net-580a3d1c-2425-453d-9c9f-1b9f1d6c0630@scriptish
-    // @name           4chan cap helper
-    // @version        4.01
+// ==UserScript==
+// @id             arch.413chan.net-580a3d1c-2425-453d-9c9f-1b9f1d6c0630@scriptish
+// @name           4chan cap helper
+// @version        4.01
 var version = 4.01;
-    // anybody with half a brain will tell you that duplicated variables like this is bad. Tough shit.
-    // @namespace      
-    // @author         subby
-    // @description    hides posts that are not selected with the tickbox, for capping
-    // @include        *://boards.4chan.org/*/thread/*
-    // @grant          none
-    // @run-at         document-end
-    // ==/UserScript==
+// anybody with half a brain will tell you that duplicated variables like this is bad. Tough shit.
+// @namespace      
+// @author         subby
+// @description    hides posts that are not selected with the tickbox, for capping
+// @include        *://boards.4chan.org/*/thread/*
+// @grant          none
+// @run-at         document-end
+// ==/UserScript==
 var despoilcount = 0;
 function contains(a, obj) {
     for (var i = 0; i < a.length; i++) {
