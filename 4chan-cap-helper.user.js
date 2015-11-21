@@ -7,7 +7,7 @@ var version = 4.01;
     // @namespace      
     // @author         subby
     // @description    hides posts that are not selected with the tickbox, for capping
-    // @include        *boards.4chan.org/*/thread/*
+    // @include        *://boards.4chan.org/*/thread/*
     // @grant          none
     // @run-at         document-end
     // ==/UserScript==
