@@ -1,6 +1,6 @@
-﻿// ==UserScript==
+// ==UserScript==
 // @name         4chan X Name Sync
-// @version      4.9.0
+// @version      4.9.3
 // @minGMVer     1.14
 // @minFFVer     26
 // @namespace    milky
@@ -17,7 +17,7 @@
 // ==/UserScript==
 
 /*
-  4chan X Name Sync v4.9.0
+  4chan X Name Sync v4.9.3
   https://namesync.net/
 
   Developers:
@@ -37,7 +37,7 @@
 
 (function() {
   var $, $$, CSS, Config, Filter, Main, Post, Posts, Set, Settings, Sync, d, g,
-    __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+    indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   Set = {};
 
@@ -45,10 +45,10 @@
 
   g = {
     NAMESPACE: 'NameSync.',
-    VERSION: '4.9.0',
+    VERSION: '4.9.3',
     posts: {},
     threads: [],
-    boards: ['b', 'soc', 's4s']
+    boards: ['b', 'soc', 's4s', 'trash']
   };
 
   $$ = function(selector, root) {
@@ -126,13 +126,13 @@
   };
 
   $.nodes = function(nodes) {
-    var frag, node, _i, _len;
+    var frag, i, len, node;
     if (!(nodes instanceof Array)) {
       return nodes;
     }
     frag = d.createDocumentFragment();
-    for (_i = 0, _len = nodes.length; _i < _len; _i++) {
-      node = nodes[_i];
+    for (i = 0, len = nodes.length; i < len; i++) {
+      node = nodes[i];
       frag.appendChild(node);
     }
     return frag;
@@ -149,7 +149,7 @@
       url += "?" + data;
     }
     r.open(type, url, true);
-    r.setRequestHeader('X-Requested-With', 'NameSync4.9.0');
+    r.setRequestHeader('X-Requested-With', 'NameSync4.9.3');
     if (file === 'qp') {
       r.setRequestHeader('If-Modified-Since', Sync.lastModified);
     }
@@ -191,6 +191,7 @@
       'Sync on /b/': [true, 'Enable sync on /b/.'],
       'Sync on /soc/': [true, 'Enable sync on /soc/.'],
       'Sync on /s4s/': [true, 'Enable sync on /s4s/.'],
+      'Sync on /trash/': [true, 'Enable sync on /trash/.'],
       'Custom Names': [false, 'Posters can be given custom names.'],
       'Read-only Mode': [false, 'Share none of your sync fields.'],
       'Hide Sage': [false, 'Share none of your sync fields when sage is in the email field.'],
@@ -233,11 +234,11 @@
 
   Main = {
     init: function() {
-      var lastView, path, _ref;
+      var lastView, path, ref;
       lastView = g.view;
       path = location.pathname.split('/');
       g.board = path[1];
-      g.view = (_ref = path[2]) === 'thread' || _ref === 'catalog' ? path[2] : 'index';
+      g.view = (ref = path[2]) === 'thread' || ref === 'catalog' ? path[2] : 'index';
       if (g.view === 'catalog') {
         return;
       }
@@ -254,8 +255,8 @@
       }
     },
     boardLegit: function() {
-      var _ref;
-      return _ref = g.board, __indexOf.call(g.boards, _ref) >= 0;
+      var ref;
+      return ref = g.board, indexOf.call(g.boards, ref) >= 0;
     }
   };
 
@@ -263,7 +264,7 @@
     nameByPost: {},
     nameByID: {},
     init: function() {
-      var post, target, _i, _len, _ref;
+      var i, len, post, ref, target;
       g.posts = {};
       g.threads = [];
       if (this.observer) {
@@ -273,21 +274,21 @@
       if (g.view !== 'thread' || !Main.boardLegit()) {
         return;
       }
-      _ref = $$('.thread > .postContainer');
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        post = _ref[_i];
+      ref = $$('.thread > .postContainer');
+      for (i = 0, len = ref.length; i < len; i++) {
+        post = ref[i];
         g.posts[post.id.slice(2)] = new Post(post);
       }
       target = $('.thread');
       g.threads.push(target.id.slice(1));
       this.observer = new MutationObserver(function(mutations) {
-        var foundNode, mutation, node, _j, _k, _len1, _len2, _ref1;
+        var foundNode, j, k, len1, len2, mutation, node, ref1;
         foundNode = false;
-        for (_j = 0, _len1 = mutations.length; _j < _len1; _j++) {
-          mutation = mutations[_j];
-          _ref1 = mutation.addedNodes;
-          for (_k = 0, _len2 = _ref1.length; _k < _len2; _k++) {
-            node = _ref1[_k];
+        for (j = 0, len1 = mutations.length; j < len1; j++) {
+          mutation = mutations[j];
+          ref1 = mutation.addedNodes;
+          for (k = 0, len2 = ref1.length; k < len2; k++) {
+            node = ref1[k];
             if (!$.hasClass(node, 'postContainer')) {
               if (!(node = $('.postContainer', node))) {
                 continue;
@@ -322,7 +323,7 @@
       if (linfo = Posts.nameByID[uID = this.info.uID]) {
         name = linfo.n;
       } else if (oinfo = Posts.nameByPost[this.ID]) {
-        if (parseInt(oinfo.time) < parseInt(this.info.date) || parseInt(oinfo.time) > parseInt(this.info.date) + 11) {
+        if (parseInt(oinfo.time) > parseInt(this.info.date) + 60) {
           return;
         }
         name = oinfo.n;
@@ -402,7 +403,7 @@
           subject: subject,
           email: email
         }) {
-          if (!(info = obj[type]) || !(regex = Filter["" + type + "s"])) {
+          if (!(info = obj[type]) || !(regex = Filter[type + "s"])) {
             continue;
           }
           if (RegExp("" + regex).test(info)) {
@@ -426,13 +427,13 @@
 
   Settings = {
     init: function() {
-      var el, section, setting, stored, val, _i, _len, _ref, _ref1;
-      _ref = Object.keys(Config);
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        section = _ref[_i];
-        _ref1 = Config[section];
-        for (setting in _ref1) {
-          val = _ref1[setting];
+      var el, i, len, ref, ref1, section, setting, stored, val;
+      ref = Object.keys(Config);
+      for (i = 0, len = ref.length; i < len; i++) {
+        section = ref[i];
+        ref1 = Config[section];
+        for (setting in ref1) {
+          val = ref1[setting];
           stored = $.get(setting);
           Set[setting] = stored === null ? val[0] : stored === 'true';
         }
@@ -458,15 +459,15 @@
       });
     },
     open: function(section) {
-      var check, checked, field, istrue, setting, stored, text, val, _i, _j, _len, _len1, _ref, _ref1, _ref2;
+      var check, checked, field, i, istrue, j, len, len1, ref, ref1, ref2, setting, stored, text, val;
       section.innerHTML = "<fieldset>\n  <legend>\n    <label><input type=checkbox name='Persona Fields' " + ($.get('Persona Fields') === 'true' ? 'checked' : '') + ">Persona</label>\n  </legend>\n  <p>Share these fields instead of the 4chan X quick reply fields.</p>\n  <div>\n    <input type=text name=Name placeholder=Name>\n    <input type=text name=Email placeholder=Email>\n    <input type=text name=Subject placeholder=Subject>\n  </div>\n</fieldset>\n<fieldset>\n  <legend>\n    <label><input type=checkbox name=Filter " + ($.get('Filter') === 'true' ? 'checked' : '') + ">Filter</label>\n  </legend>\n  <p><code>^(?!Anonymous$)</code> to filter all names <code>!tripcode|!tripcode</code> to filter multiple tripcodes. Only applies to sync posts.</p>\n  <div>\n    <input type=text name=FilterNames placeholder=Names>\n    <input type=text name=FilterTripcodes placeholder=Tripcodes>\n    <input type=text name=FilterEmails placeholder=Email>\n    <input type=text name=FilterSubjects placeholder=Subjects>\n  </div>\n</fieldset>\n<fieldset>\n  <legend>Advanced</legend>\n  <div>\n    <input id=syncClear type=button value='Clear my sync history' title='Clear your sync history from the server'>\n    Sync Delay: <input type=number name=Delay min=0 step=100 placeholder=300 title='Delay before synchronising after a thread or index update'> ms\n  </div>\n</fieldset>\n<fieldset>\n  <legend>About</legend>\n  <div>4chan X Name Sync v" + g.VERSION + "</div>\n  <div>\n    <a href='http://milkytiptoe.github.io/Name-Sync/' target=_blank>Website</a> |\n    <a href='https://github.com/milkytiptoe/Name-Sync/wiki/Support' target=_blank>Support</a> |\n    <a href='https://raw.githubusercontent.com/milkytiptoe/Name-Sync/master/license' target=_blank>License</a> |\n    <a href='https://raw.githubusercontent.com/milkytiptoe/Name-Sync/master/changelog' target=_blank>Changelog</a> |\n    <a href='https://github.com/milkytiptoe/Name-Sync/issues/new' target=_blank>Issues</a>\n  </div>\n</fieldset>";
       field = $.el('fieldset');
       $.add(field, $.el('legend', {
         textContent: 'Main'
       }));
-      _ref = Config.main;
-      for (setting in _ref) {
-        val = _ref[setting];
+      ref = Config.main;
+      for (setting in ref) {
+        val = ref[setting];
         stored = $.get(setting);
         istrue = stored === null ? val[0] : stored === 'true';
         checked = istrue ? 'checked' : '';
@@ -475,24 +476,24 @@
         }));
       }
       $.prepend(section, field);
-      _ref1 = $$('input[type=checkbox]', section);
-      for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-        check = _ref1[_i];
+      ref1 = $$('input[type=checkbox]', section);
+      for (i = 0, len = ref1.length; i < len; i++) {
+        check = ref1[i];
         $.on(check, 'click', function() {
           return $.set(this.name, this.checked);
         });
       }
-      _ref2 = $$('input[type=text], input[type=number]', section);
-      for (_j = 0, _len1 = _ref2.length; _j < _len1; _j++) {
-        text = _ref2[_j];
+      ref2 = $$('input[type=text], input[type=number]', section);
+      for (j = 0, len1 = ref2.length; j < len1; j++) {
+        text = ref2[j];
         text.value = $.get(text.name) || '';
         $.on(text, 'input', function() {
-          var err, regexp;
+          var err, error, regexp;
           if (/^Filter/.test(this.name)) {
             try {
               regexp = RegExp(this.value);
-            } catch (_error) {
-              err = _error;
+            } catch (error) {
+              err = error;
               alert(err.message);
               return this.value = $.get(this.name);
             }
@@ -528,17 +529,17 @@
     },
     indexRefresh: function() {
       return setTimeout(function() {
-        var post, thread, _i, _j, _len, _len1, _ref, _ref1;
+        var i, j, len, len1, post, ref, ref1, thread;
         g.posts = {};
         g.threads = [];
-        _ref = $$('.thread');
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          thread = _ref[_i];
+        ref = $$('.thread');
+        for (i = 0, len = ref.length; i < len; i++) {
+          thread = ref[i];
           g.threads.push(thread.id.slice(1));
         }
-        _ref1 = $$('.thread > .postContainer');
-        for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-          post = _ref1[_j];
+        ref1 = $$('.thread > .postContainer');
+        for (j = 0, len1 = ref1.length; j < len1; j++) {
+          post = ref1[j];
           g.posts[post.id.slice(2)] = new Post(post);
         }
         clearTimeout(Sync.handle);
@@ -562,16 +563,16 @@
       }
       $.ajax('qp', 'GET', "t=" + g.threads + "&b=" + g.board, {
         onloadend: function() {
-          var poster, _i, _len, _ref;
+          var i, len, poster, ref;
           if (!(this.status === 200 && this.response)) {
             return;
           }
           if (g.view === 'thread') {
             Sync.lastModified = this.getResponseHeader('Last-Modified') || Sync.lastModified;
           }
-          _ref = JSON.parse(this.response);
-          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-            poster = _ref[_i];
+          ref = JSON.parse(this.response);
+          for (i = 0, len = ref.length; i < len; i++) {
+            poster = ref[i];
             Posts.nameByPost[poster.p] = poster;
           }
           Posts.updateAllPosts();
@@ -610,6 +611,9 @@
       currentSubject = currentSubject.trim();
       if (Set['Hide Sage'] && /sage/i.test(currentEmail)) {
         return;
+      }
+      if (/since4pass/i.test(currentEmail)) {
+        currentEmail = '';
       }
       if (currentName + currentEmail + currentSubject === '') {
         return;
