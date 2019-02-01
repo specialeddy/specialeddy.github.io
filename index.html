@@ -14,19 +14,13 @@
   <body>
     <div class="wrapper">
       <header>
-        <div class="announcement">
-          <img class="icon48" src="img/logo_48.png" alt="Icon">
-          <p>It's here, the new "No-CAPTCHA" reCAPTCHA. Is your code ready?
-            <br>
-            <a href="https://www.google.com/recaptcha/intro/comingsoon/" target="_blank">Learn more</a> | <a href="http://www.youtube.com/watch?v=jwslDn3ImM0" target="_blank">Video</a> | <a href="http://www.google.com/recaptcha/api2/demo" target="_blank">Demo</a>
-          </p>
-        </div>
-        <hr>
         <h1>Eddy's Github</h1>
         <p>Home of various 4chan scripts and tools.</p>
         <p>Special note on tripcode passwords: If you generate a tripcode that contains a pound sign # character anywhere in the password, replace it with the ｣ character to prevent it from turning into a secure trip. Example: #12#3456 should be #12｣3456</p>
         <p>For Adblock/uBlock Origin users: Scripts may fail to load when using these, but a fix is available. Add the following lines to your custom filters (commented for clarity):</p>
-        <textarea rows="8" cols="38" onclick="this.focus();this.select()" readonly="readonly"># Fixes 4chan X image upload thumbnail preview issue&#013;@@||4chan.org^*$csp=default-src 'self' * data: 'unsafe-inline' 'unsafe-eval'&#013;&#013;# Restores Namesync & other scripts functionality&#013;@@||*$xmlhttprequest,domain=4chan.org</textarea>
+        <textarea rows="8" cols="38" onclick="this.focus();this.select()" readonly="readonly"># Fixes 4chan image upload thumbnail preview issue&#013;@@||4chan.org^*$csp=default-src 'self' * data: 'unsafe-inline' 'unsafe-eval'&#013;&#013;# Restores Namesync & other scripts functionality&#013;@@||*$xmlhttprequest,domain=4chan.org</textarea>
+        <p>For iOS users, you can use a special mobile version of Namesync in Safari. Save a new bookmark to any website, then edit it and put the following code into the address field:</p>
+        <textarea rows="6" cols="38" onclick="this.focus();this.select()" readonly="readonly">javascript:(function()%7B%20document.body.appendChild(document.createElement('script')).src%20='https://namesync.net/mobile/builds/NameSync.mobile.user.js';%20%7D)();</textarea>
       </header>
       <section>
         <h1>Maintained Scripts</h1>
